@@ -1,10 +1,10 @@
-const path = require('path');
-const express = require('express');
-const bodyParser = require('body-parser');
+import path from 'path';
+import express from 'express';
+import bodyParser from 'body-parser';
 const app = express();
 const publicPath = path.join(__dirname, 'client', 'public');
 const port = process.env.PORT || 3001;
-const fs = require('fs');
+import fs from 'fs';
 
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
