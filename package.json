@@ -8,8 +8,15 @@
         "dev": "concurrently --kill-others-on-fail \"npm server\" \"npm client\""
     },
     "dependencies": {
+        "@graphile-contrib/pg-simplify-inflector": "^6.1.0",
+        "@graphile/pg-pubsub": "^4.10.0",
         "body-parser": "^1.18.3",
         "express": "^4.16.4",
+        "graphile-build-pg": "^4.10.0",
+        "graphql": "^14.7.0",
+        "pg": "^8.5.1",
+        "postgraphile": "^4.10.0",
+        "postgraphile-plugin-connection-filter": "^2.1.1",
         "react-scripts": "^4.0.1"
     },
     "devDependencies": {
