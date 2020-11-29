@@ -10,7 +10,6 @@ app.use(express.static(publicPath));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 app.get('/home', async (req, res) => {
     try {
         const foods = fs.readFileSync(`foodList.txt`, 'utf-8');
@@ -48,12 +47,6 @@ app.post('/home', async (req, res) => {
         res.status(400).send('Error!');
     }
 });
-
-
-// app.post('/home', (req, res) => {
-//     const data = req;
-// })
-
 
 app.listen(port, () => {
     console.log(`Server is up on port ${port}!`);

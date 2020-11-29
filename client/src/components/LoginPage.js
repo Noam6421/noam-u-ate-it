@@ -6,8 +6,6 @@ import axios from 'axios';
 
 const CLIENT_ID = '988769699236-iia7fttlj2p46hoaisu04lh81cnd10co.apps.googleusercontent.com';
 
-
-
 const LoginPage = () => {
     const { setUser } = useContext(AppContext);
     const history = useHistory();
