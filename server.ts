@@ -1,15 +1,28 @@
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
+require('dotenv').config();
 const app = express();
 const publicPath = path.join(__dirname, 'client', 'public');
 const port = process.env.PORT || 3001;
 import fs from 'fs';
+import {postgraphile} from "postgraphile";
+
+app.use(postgraphile(
+    "postgres://postgres:a@localhost:5432/u-ate-it",
+    "u-ate-it-schema", 
+    {
+        watchPg: true,
+        graphiql: true,
+        enhanceGraphiql: true,
+    }
+));
 
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+console.log(process.env.PORT)
 app.get('/home', async (req, res) => {
     try {
         const foods = fs.readFileSync(`foodList.txt`, 'utf-8');
