@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useRef, useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, FormControlLabel, Button, Checkbox} from '@material-ui/core';
 import AppContext from '../context/context';
@@ -23,18 +23,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FavFood = () => {
+    useEffect(() => {
+        async function fetchData() {
+            const data = await axios.get('/food')
+            setFoodList(data.data) 
+        }
+        fetchData();
+    }, []);
     const { user, name, lastName, 
         birthDate, isMinor, 
         beer, idNum, phone, 
         checkedList, setCheckedList,
-        foodList
+        setFoodList, foodList
     } = useContext(AppContext);
     const classes = useStyles();
     const textInput = useRef()
     const [other, setOther] = useState('');
     const [otherChecked, setOtherChecked] = useState(false);
     const [userMes, setUserMes] = useState('');
-    // const { favFoodList } = useContext(AppContext);
     const handleCheckedChange = (e) => {
         if (e.target.id === 'other') {
             textInput.current.focus();

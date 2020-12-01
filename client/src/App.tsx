@@ -4,6 +4,7 @@ import AppRouter from './AppRouter';
 
 const App = () => {
     const [user, setUser] = useState('');
+    const [email, setEmail] = useState('');
     const [value, setValue] = useState(0);
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -14,11 +15,13 @@ const App = () => {
     const [phone, setPhone] = useState('');
     const [checkedList, setCheckedList] = useState([]);
     const [foodList, setFoodList] = useState([]);
-    const contextValues = { user, setUser, value, setValue, name, setName, lastName, setLastName, birthDate, setBirthDate, isMinor, setIsMinor, beer, setBeer, idNum, setIdNum, phone, setPhone, checkedList, setCheckedList, foodList, setFoodList };
+    const contextValues = { user, setUser, email, setEmail, value, setValue, name, setName, lastName, setLastName, birthDate, setBirthDate, isMinor, setIsMinor, beer, setBeer, idNum, setIdNum, phone, setPhone, checkedList, setCheckedList, foodList, setFoodList };
     useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
-        if (loggedInUser) {
+        const loggedInUserEmail = localStorage.getItem("email");
+        if (loggedInUser && loggedInUserEmail) {
           setUser(loggedInUser);
+          setEmail(loggedInUserEmail)
         }
       }, []);
     return (

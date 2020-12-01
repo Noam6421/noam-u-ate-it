@@ -7,9 +7,11 @@ const publicPath = path.join(__dirname, 'client', 'public');
 const port = process.env.PORT || 3001;
 import fs from 'fs';
 import {postgraphile} from "postgraphile";
+import createUser from "./db/functions/createUser";
+import getFood from './db/functions/getFood';
 
 app.use(postgraphile(
-    "postgres://postgres:a@localhost:5432/u-ate-it",
+    process.env.DATABASE_URL,
     "u-ate-it-schema", 
     {
         watchPg: true,
@@ -20,9 +22,9 @@ app.use(postgraphile(
 
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-console.log(process.env.PORT)
 app.get('/home', async (req, res) => {
     try {
         const foods = fs.readFileSync(`foodList.txt`, 'utf-8');
@@ -60,6 +62,11 @@ app.post('/home', async (req, res) => {
         res.status(400).send('Error!');
     }
 });
+
+
+app.post('/user', createUser);
+app.get('/food', getFood);
+
 
 app.listen(port, () => {
     console.log(`Server is up on port ${port}!`);

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = () => {
     const classes = useStyles();
-    const {  setName, setLastName, 
+    const {  setName, setEmail, setLastName, 
             setBirthDate, setIsMinor, 
             setBeer, setIdNum, setPhone, setCheckedList, setFoodList
     } = useContext(AppContext);
@@ -34,11 +34,11 @@ const HomePage = () => {
             setPhone(objData.phone);
             setCheckedList(objData.checkedList)
         }
-        axios.get('/home')
-        .then((res) => {
-            let foods = res.data.split(',');
-            setFoodList(foods);
-        })
+        // axios.get('/home')
+        // .then((res) => {
+        //     let foods = res.data.split(',');
+        //     setFoodList(foods);
+        // })
       }, []);
     return(
         <div className={classes.root}>
