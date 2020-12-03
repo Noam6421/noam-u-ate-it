@@ -1,14 +1,15 @@
-import React, { useContext } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import AppContext from '../context/context';
 import PropTypes from 'prop-types';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import PersonalInfo from './PersonalInfo';
+import Tabs from '@material-ui/core/Tabs';
+import React, { useContext } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
 import FavFood from './FavFood';
+import PersonalInfo from './PersonalInfo';
+import AppContext from '../context/context';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;

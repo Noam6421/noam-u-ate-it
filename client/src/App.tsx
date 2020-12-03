@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import AppContext from './context/context';
+
 import AppRouter from './AppRouter';
+import AppContext from './context/context';
 
 const App = () => {
     const [user, setUser] = useState('');
+    const [userId, setUserId] = useState<number>();
     const [email, setEmail] = useState('');
     const [value, setValue] = useState(0);
     const [name, setName] = useState('');
@@ -15,7 +17,25 @@ const App = () => {
     const [phone, setPhone] = useState('');
     const [checkedList, setCheckedList] = useState([]);
     const [foodList, setFoodList] = useState([]);
-    const contextValues = { user, setUser, email, setEmail, value, setValue, name, setName, lastName, setLastName, birthDate, setBirthDate, isMinor, setIsMinor, beer, setBeer, idNum, setIdNum, phone, setPhone, checkedList, setCheckedList, foodList, setFoodList };
+    const [foodPref, setFoodPref] = useState([]);
+    const [formError, setFormError] = useState(false);
+    const contextValues = { 
+        user, setUser, 
+        userId, setUserId, 
+        email, setEmail, 
+        value, setValue, 
+        name, setName, 
+        lastName, setLastName, 
+        birthDate, setBirthDate, 
+        isMinor, setIsMinor, 
+        beer, setBeer, 
+        idNum, setIdNum, 
+        phone, setPhone, 
+        checkedList, setCheckedList, 
+        foodList, setFoodList, 
+        foodPref, setFoodPref,
+        formError, setFormError
+    };
     useEffect(() => {
         const loggedInUser = localStorage.getItem("user");
         const loggedInUserEmail = localStorage.getItem("email");

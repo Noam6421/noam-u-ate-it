@@ -1,6 +1,6 @@
 import { gql } from "graphql-request";
 
-export const getUserDataByEmail = gql`
+export const getUserDataByEmailWithPref = gql`
     query getUserData($email: String) {
         __typename
         userByEmail(email: $email) {

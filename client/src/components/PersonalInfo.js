@@ -1,12 +1,10 @@
 import React, { useContext } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { Box, TextField, Typography, Select, MenuItem, InputLabel, FormControl, Button, Grid } from '@material-ui/core';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
-import AppContext from '../context/context';
 import DateFnsUtils from '@date-io/date-fns';
-import { useForm, FormProvider } from 'react-hook-form';
-import FormInput from './FormInput';
-import FormSelect from "./FormSelect";
+import { makeStyles } from '@material-ui/core/styles';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import { Box, TextField, Typography, Select, MenuItem, InputLabel, FormControl, Button } from '@material-ui/core';
+
+import AppContext from '../context/context';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -27,22 +25,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PersonalInfo = () => {
-    const methods = useForm();
-    const { handleSubmit } = methods;
-    const numberData = [
-        {
-        id: "10",
-        label: "Ten",
-        },
-        {
-        id: "20",
-        label: "Twenty",
-        },
-        {
-        id: "30",
-        label: "Thirty",
-        },
-    ];
     const classes = useStyles();
     const { setValue, name, setName, lastName, setLastName, 
             birthDate, setBirthDate, isMinor, setIsMinor, 
@@ -80,18 +62,6 @@ const PersonalInfo = () => {
     }
     return(
         <div className={classes.root}>
-            <FormProvider {...methods}>
-                <form>
-                    <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            <FormInput name="name" label="Name" />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <FormSelect name="sel" label="Numbers" options={numberData} />
-                        </Grid>
-                    </Grid>
-                </form>
-            </FormProvider>
             <Box display="flex">
                 <Typography variant="h6">
                     שם פרטי
@@ -141,12 +111,9 @@ const PersonalInfo = () => {
                         autoWidth={true}
                         disabled={isMinor}
                     >
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        <MenuItem value={'Apa'}>APA</MenuItem>
+                        <MenuItem value={'Ale'}>Ale</MenuItem>
+                        <MenuItem value={'Lager'}>Lager</MenuItem>
                     </Select>
                 </FormControl>
             </Box>

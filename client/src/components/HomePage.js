@@ -1,9 +1,10 @@
-import React, { useEffect, useContext } from 'react'
+import axios from "axios";
+import React, { useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+
+import TabBarHome from './TabBarHome';
 import AppBarHome from './AppBarHome';
 import AppContext from '../context/context';
-import TabBarHome from './TabBarHome';
-import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -16,30 +17,57 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = () => {
     const classes = useStyles();
-    const {  setName, setEmail, setLastName, 
-            setBirthDate, setIsMinor, 
-            setBeer, setIdNum, setPhone, setCheckedList, setFoodList
-    } = useContext(AppContext);
+    const { setUser, email, 
+        userId, setUserId, 
+        setEmail, setName, 
+        setLastName, 
+        birthDate, setBirthDate, 
+        setIsMinor, foodPref, foodList, 
+        setBeer, setIdNum, 
+        setPhone, setFoodPref
+    } = useContext(AppContext);  
     useEffect(() => {
-        const data = localStorage.getItem("data");
-        console.log(data);
-        if (data) {
-            const objData = JSON.parse(data);
-            setName(objData.name);
-            setLastName(objData.lastName);
-            setBirthDate(objData.birthDate);
-            setIsMinor(objData.isMinor);
-            setBeer(objData.beer);
-            setIdNum(objData.idNum);
-            setPhone(objData.phone);
-            setCheckedList(objData.checkedList)
+        async function fetchData() {
+            const res = await axios.get('/user',{
+                params: { email: localStorage.getItem('email') }
+                });
+            if (res.status === 200) {
+                if (res.data.userId === 'newUser'){
+                    
+                } else {
+                    //if user exists sets his data to stata
+                    setUserId(res.data.userData.id)
+                    setName(res.data.userData.name);
+                    setLastName(res.data.userData.lastName);
+                    setBirthDate(res.data.userData.birthDate);
+                    setBeer(res.data.userData.beer);
+                    setIdNum(res.data.userData.idNum);
+                    setPhone(res.data.userData.phone);
+                    // according to his birthDate sets isMinor state
+                    var currentDate = new Date();
+                    var ageDifMs = currentDate - birthDate;
+                    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+                    var age = Math.abs(ageDate.getUTCFullYear() - 1970)
+                    if (age > 18){
+                        setIsMinor(false);
+                    }
+                }
+            }
         }
-        // axios.get('/home')
-        // .then((res) => {
-        //     let foods = res.data.split(',');
-        //     setFoodList(foods);
-        // })
-      }, []);
+        fetchData();
+    }, []);
+    useEffect(() => {
+        async function fetchData() {
+            // get user foodPrefs
+            const foodData = await axios.get('/foodPref', { 
+                params:{userId}
+            });
+            setFoodPref(foodData.data);
+        }
+        if (userId){
+            fetchData()
+        }
+    }, [userId])
     return(
         <div className={classes.root}>
             <AppBarHome/>

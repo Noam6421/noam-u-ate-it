@@ -1,10 +1,10 @@
 import { request } from "graphql-request";
 import { Request, Response } from 'express';
 
-import { createUserMutation } from "../mutations/createUserMutation";
+import { updateUserMutation } from "../mutations/updateUserMutation";
 
-export default async function createUser(req: Request, res: Response) {
-    const data = await request(String(process.env.GRAPHQL_URL), createUserMutation, {
+export default async function updateUser(req: Request, res: Response) {
+    const data = await request(String(process.env.GRAPHQL_URL), updateUserMutation, {
         email: req.body.email,
         name: req.body.name,
         lastName: req.body.lastName,
@@ -16,5 +16,5 @@ export default async function createUser(req: Request, res: Response) {
     if (!data) {
         return res.status(400).send(data)
     }
-    res.send({userId: data.createUser.user.id})
+    res.send({userId: data.updateUserByEmail.user.id})
 }

@@ -6,6 +6,7 @@ export const getFoodQuery = gql`
         allFoods {
         nodes {
             foodName
+            id
         }
         }
     }

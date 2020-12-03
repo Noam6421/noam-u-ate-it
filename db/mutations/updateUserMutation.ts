@@ -1,7 +1,7 @@
 import { gql } from "graphql-request";
 
-export const createUserMutation = gql`
-    mutation createUser(
+export const updateUserMutation = gql`
+    mutation updateUser(
         $email: String!
         $name: String!
         $lastName: String!
@@ -10,23 +10,23 @@ export const createUserMutation = gql`
         $phone: BigFloat!
         $beer: String
     ) {
-        createUser(
+    __typename
+    updateUserByEmail(
         input: {
-            user: {
-            name: $name
-            lastName: $lastName
+        email: $email
+        userPatch: {
+            beer: $beer
             birthDate: $birthDate
             idNum: $idNum
+            lastName: $lastName
+            name: $name
             phone: $phone
-            email: $email
-            beer: $beer
-            }
-        }
-        ) {
-        clientMutationId
-        user{
-            id
         }
         }
-    }  
+    ) {
+        user {
+        id
+        }
+    }
+    }
 `;
