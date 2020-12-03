@@ -1,9 +1,12 @@
-import React, { useContext } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import React, { useContext } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import { useHistory } from 'react-router-dom';
+import { GoogleLogout } from 'react-google-login';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+
 import AppContext from '../context/context';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,10 +18,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const CLIENT_ID = '988769699236-iia7fttlj2p46hoaisu04lh81cnd10co.apps.googleusercontent.com';
 
 const AppBarHome = () => {
     const classes = useStyles();
     const { user } = useContext(AppContext);
+    const history = useHistory();
+    const logout = async (response) => {
+        history.push("/");
+    } 
     return(
         <div className={classes.root}>
             <AppBar position="static">
@@ -36,9 +44,17 @@ const AppBarHome = () => {
                         </Box>
                     </Grid>
                     <Grid item>
-                        <Typography type="title" color="inherit" variant="h6">
-                            שלום לך {user}
-                        </Typography>
+                        <Box display="flex" flexDirection="row" alignItems="center" padding={1}>
+                            <Typography type="title" color="inherit" variant="h6">
+                                שלום לך {user}
+                            </Typography>
+                            <GoogleLogout
+                                clientId={CLIENT_ID}
+                                buttonText="Logout"
+                                onLogoutSuccess={logout}
+                            >
+                            </GoogleLogout>
+                        </Box>
                     </Grid>
                 </Grid>
             </AppBar>      
