@@ -155,7 +155,7 @@ const FavFood = () => {
                     control={
                     <Checkbox
                         id="other"
-                        checked={checkedList.includes(other) || otherChecked}
+                        checked={otherChecked}
                         onChange={handleCheckedChange}
                         name={other}
                         color="primary"
