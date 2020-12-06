@@ -1,6 +1,8 @@
-import React, { ChangeEvent, ReactNode, useContext } from 'react'
+import * as yup from 'yup';
 import DateFnsUtils from '@date-io/date-fns';
+import isIsraeliIdValid from 'israeli-id-validator';
 import { makeStyles } from '@material-ui/core/styles';
+import React, { ChangeEvent, ReactNode, useContext } from 'react';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { Box, TextField, Typography, Select, MenuItem, InputLabel, FormControl, Button } from '@material-ui/core';
@@ -24,6 +26,21 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 200,
     },
 }));
+
+const phoneRegExp = /^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$/;
+
+const schema = yup.object().shape({
+    name: yup.string().required(),
+    lastName: yup.string().required(),
+    birthDate: yup.date().required(),
+    beer: yup.string(),
+    idNum: yup.string()
+        .test('israeliId', 'Not valid Id', function (value) {
+            return isIsraeliIdValid(value)
+        })
+        .required(),
+    phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
+});
 
 const PersonalInfo = () => {
     const classes = useStyles();
