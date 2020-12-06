@@ -24,7 +24,7 @@ const AppBarHome = () => {
     const classes = useStyles();
     const { user } = useContext(AppContext);
     const history = useHistory();
-    const logout = async (response) => {
+    const logout = async () => {
         history.push("/");
     } 
     return(
@@ -45,7 +45,7 @@ const AppBarHome = () => {
                     </Grid>
                     <Grid item>
                         <Box display="flex" flexDirection="row" alignItems="center" padding={1}>
-                            <Typography type="title" color="inherit" variant="h6">
+                            <Typography color="inherit" variant="h6">
                                 שלום לך {user}
                             </Typography>
                             <GoogleLogout
