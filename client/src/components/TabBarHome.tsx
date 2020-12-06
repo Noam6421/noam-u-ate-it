@@ -11,15 +11,22 @@ import FavFood from './FavFood';
 import PersonalInfo from './PersonalInfo';
 import AppContext from '../context/context';
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: any;
+    value: any;
+}
+
+  
+function TabPanel(props: TabPanelProps) {
+    const { children, value, index } = props;
     return (
         <div
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
-            {...other}
         >
         {value === index && (
             <Box p={3}>
@@ -37,7 +44,7 @@ TabPanel.propTypes = {
 };
   
 
-function a11yProps(index) {
+function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
         'aria-controls': `simple-tabpanel-${index}`,
@@ -55,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 const TabBarHome = () => {
     const classes = useStyles();
     const { value, setValue } = useContext(AppContext);
-    const handleChange = (event, newValue) => {
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setValue(newValue);
     };
     return(

@@ -2,7 +2,12 @@ import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 
-const FormInput = (props) => {
+type Props = {
+    name: string;
+    label: number;
+};
+
+const FormInput : React.FC<Props> = (props) => {
     const { control } = useFormContext();
     const { name, label } = props;
     return (
@@ -13,7 +18,6 @@ const FormInput = (props) => {
             defaultValue=""
             label={label}
             fullWidth={true}
-            {...props}
         />
     );
 }

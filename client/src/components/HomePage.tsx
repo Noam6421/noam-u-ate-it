@@ -44,9 +44,9 @@ const HomePage = () => {
                     setIdNum(res.data.userData.idNum);
                     setPhone(res.data.userData.phone);
                     // according to his birthDate sets isMinor state
-                    var currentDate = new Date();
-                    var ageDifMs = currentDate - birthDate;
-                    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+                    var currentDate: Date = new Date();
+                    var ageDifMs = currentDate.getTime() - birthDate.getTime();
+                    var ageDate: Date = new Date(ageDifMs); // miliseconds from epoch
                     var age = Math.abs(ageDate.getUTCFullYear() - 1970)
                     if (age > 18){
                         setIsMinor(false);

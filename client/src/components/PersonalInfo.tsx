@@ -1,7 +1,8 @@
-import React, { useContext } from 'react'
+import React, { ChangeEvent, ReactNode, useContext } from 'react'
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { Box, TextField, Typography, Select, MenuItem, InputLabel, FormControl, Button } from '@material-ui/core';
 
 import AppContext from '../context/context';
@@ -31,33 +32,33 @@ const PersonalInfo = () => {
             beer, setBeer, idNum, setIdNum, phone, setPhone 
     } = useContext(AppContext);
     const alphaRegex = /^[a-z\u0590-\u05fe]+$/i;
-    const handleNameChange = (e) => {
+    const handleNameChange = (e: {target: {value: string}}) => {
         if ((e.target.value === '' || alphaRegex.test(e.target.value)) && e.target.value.length <= 50) {
           setName(e.target.value)
         }    
     }
-    const handleLastNameChange = (e) => {
+    const handleLastNameChange = (e: {target: {value: string}}) => {
         if ((e.target.value === '' || alphaRegex.test(e.target.value)) && e.target.value.length <= 50) {
           setLastName(e.target.value)
         }    
     }
-    const handleBirthDateChange = (date) => {
+    const handleBirthDateChange = (date: MaterialUiPickersDate) => {
         setBirthDate(date);
-        var currentDate = new Date();
-        var ageDifMs = currentDate - date;
-        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        var currentDate: Date = new Date();
+        var ageDifMs = currentDate.getTime() - birthDate.getTime();
+        var ageDate: Date = new Date(ageDifMs); // miliseconds from epoch
         var age = Math.abs(ageDate.getUTCFullYear() - 1970)
         if (age > 18){
             setIsMinor(false);
         }
     }
-    const handleBeerChange = (e) => {
+    const handleBeerChange = (e: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => {
         setBeer(e.target.value);
     }
-    const handleIdNumChange = (e) => {
+    const handleIdNumChange = (e: {target: {value: string}}) => {
         setIdNum(e.target.value);
     }
-    const handlePhoneChange = (e) => {
+    const handlePhoneChange = (e: {target: {value: string}}) => {
         setPhone(e.target.value);
     }
     return(

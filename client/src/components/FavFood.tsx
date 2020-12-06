@@ -6,6 +6,12 @@ import { TextField, FormControlLabel, Button, Checkbox} from '@material-ui/core'
 
 import AppContext from '../context/context';
 
+interface Food {
+    name: string;
+    value?: number;
+    id?: number;
+}
+
 const useStyles = makeStyles((theme) => ({
     logo: {
         maxWidth: 80,
@@ -47,21 +53,23 @@ const FavFood = () => {
     //     }
     // }, [formError]);
     const classes = useStyles();
-    const textInput = useRef()
+    const textInput = useRef<HTMLInputElement>()
     const [other, setOther] = useState('');
     const [otherChecked, setOtherChecked] = useState(false);
     const [userMes, setUserMes] = useState('');
-    const handleCheckedChange = (e) => {
+    const handleCheckedChange = (e: {target: {id: string, name: string, value: string}}) => {
         if (e.target.id === 'other') {
-            textInput.current.focus();
-            setOtherChecked(!otherChecked)
-        } else if (foodPref.some(foodPrefItem => foodPrefItem.name === e.target.name)) {
-            setFoodPref(foodPref.filter(foodPrefItem => foodPrefItem.name !== e.target.name ))
+            if (textInput.current !== null && textInput.current !== undefined){
+                textInput.current.focus();
+                setOtherChecked(!otherChecked)
+            }
+        } else if (foodPref.some((foodPrefItem: Food) => foodPrefItem.name === e.target.name)) {
+            setFoodPref(foodPref.filter((foodPrefItem: Food) => foodPrefItem.name !== e.target.name ))
         } else {
             setFoodPref([...foodPref, {name: e.target.name, value: parseInt(e.target.value)}]);
         }
     }
-    const handleOtherChange = (e) => {
+    const handleOtherChange = (e: {target: {value: string}}) => {
         setOther(e.target.value)
     } 
     const validateForm = async () => {
@@ -72,7 +80,7 @@ const FavFood = () => {
             if (other === ''){
                 setUserMes('אם שדה אחר מסומן, יש למלא ערך')
                 return false
-            } else if (foodList.some(food => food.name === other)){
+            } else if (foodList.some((food: Food) => food.name === other)){
                 setUserMes('מאכל זה כבר קיים ברשימה, אנא סמן אותו ומחק את אופציית אחר')
                 return false
             } else{
@@ -132,13 +140,13 @@ const FavFood = () => {
     }
     return(
         <div className={classes.root}>
-            {foodList.map((food) => (
+            {foodList.map((food: Food) => (
                 <div>
                     <FormControlLabel
                         control={
                         <Checkbox
                             checked={
-                                foodPref.some(foodPrefItem => foodPrefItem.name === food.name)
+                                foodPref.some((foodPrefItem: Food) => foodPrefItem.name === food.name)
                             }
                             onChange={handleCheckedChange}
                             name={food.name}
@@ -155,7 +163,7 @@ const FavFood = () => {
                     control={
                     <Checkbox
                         id="other"
-                        checked={checkedList.includes(other) || otherChecked}
+                        checked={otherChecked}
                         onChange={handleCheckedChange}
                         name={other}
                         color="primary"
