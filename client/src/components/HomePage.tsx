@@ -27,7 +27,7 @@ const HomePage = () => {
         setPhone, setFoodPref,
         setValue
     } = useContext(AppContext);  
-    const fetchData= async () => {
+    const fetchData = async () => {
         const res = await axios.get('/user',{
             params: { email: localStorage.getItem('email') }
             });
