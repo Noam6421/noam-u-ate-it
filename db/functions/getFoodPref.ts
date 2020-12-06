@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 import { getFoodPrefQuery } from "../queries/getFoodPrefQuery";
 
-export default async function getFoodPref(req: Request, res: Response) {
+const getFoodPref = async (req: Request, res: Response) => {
     const data = await request(String(process.env.GRAPHQL_URL), getFoodPrefQuery, {
         userId: parseInt(String(req.query.userId))
     })
@@ -15,4 +15,7 @@ export default async function getFoodPref(req: Request, res: Response) {
         foodPrefList.push({name: node.foodByFoodId.foodName, value: node.foodByFoodId.id})
     })
     res.send(foodPrefList)
-}
+};
+
+export default getFoodPref;
+

@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // User paths from client to DB
 app.get('/user', getUser);
 app.post('/user', createUser);
-app.patch('/user', updateUser);
+app.put('/user', updateUser);
 
 // Food paths from client to DB
 app.get('/food', getFood);
@@ -45,7 +45,7 @@ app.post('/food', createFood);
 // FoodPref paths from client to DB
 app.get('/foodPref', getFoodPref);
 app.post('/foodPref', createFoodPref);
-app.patch('/foodPref', updateFoodPref);
+app.put('/foodPref', updateFoodPref);
 
 app.listen(port, () => {
     console.log(`Server is up on port ${port}!`);

@@ -9,7 +9,7 @@ const CLIENT_ID = '988769699236-iia7fttlj2p46hoaisu04lh81cnd10co.apps.googleuser
 
 
 const LoginPage = () => {
-    const { setUser, setEmail } = useContext(AppContext);    
+    const { setUser, setEmail, setValue } = useContext(AppContext);    
     const history = useHistory();
     const login = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
         if ("profileObj" in response){
@@ -17,6 +17,7 @@ const LoginPage = () => {
             setEmail(response.profileObj.email)
             localStorage.setItem('user', response.profileObj.name)
             localStorage.setItem('email', response.profileObj.email)
+            setValue(0)
             history.push("/home");
         }
     }

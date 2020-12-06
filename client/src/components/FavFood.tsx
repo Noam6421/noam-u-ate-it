@@ -121,12 +121,12 @@ const FavFood = () => {
                 }
             } else {
                 try {
-                    const updatedUser = await axios.patch('/user', {name, email, lastName, 
+                    const updatedUser = await axios.put('/user', {name, email, lastName, 
                         birthDate, isMinor, beer, 
                         idNum, phone})
                     const userId = updatedUser.data.userId; 
                     const foodPrefWithOther = await addOther();
-                    await axios.patch('/foodPref', {
+                    await axios.put('/foodPref', {
                         userId,
                         foodPref: foodPrefWithOther
                     })

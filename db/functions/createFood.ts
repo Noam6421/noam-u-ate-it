@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 import { createFoodMutation } from "../mutations/createFoodMutation";
 
-export default async function createFood(req: Request, res: Response) {
+const createFood = async (req: Request, res: Response) => {
     try {
         const data = await request(String(process.env.GRAPHQL_URL), createFoodMutation, {
             foodName: req.body.other
@@ -12,4 +12,7 @@ export default async function createFood(req: Request, res: Response) {
     } catch (error) {
         return res.status(400).send(error)
     }
-}
+};
+
+export default createFood;
+

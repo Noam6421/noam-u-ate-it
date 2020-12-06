@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 import { updateUserMutation } from "../mutations/updateUserMutation";
 
-export default async function updateUser(req: Request, res: Response) {
+const updateUser = async (req: Request, res: Response) => {
     const data = await request(String(process.env.GRAPHQL_URL), updateUserMutation, {
         email: req.body.email,
         name: req.body.name,
@@ -17,4 +17,7 @@ export default async function updateUser(req: Request, res: Response) {
         return res.status(400).send(data)
     }
     res.send({userId: data.updateUserByEmail.user.id})
-}
+};
+
+export default updateUser;
+

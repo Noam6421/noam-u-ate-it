@@ -10,7 +10,6 @@ export const updateUserMutation = gql`
         $phone: BigFloat!
         $beer: String
     ) {
-    __typename
     updateUserByEmail(
         input: {
         email: $email

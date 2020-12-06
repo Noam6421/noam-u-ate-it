@@ -10,7 +10,7 @@ interface FoodList{
     name: string;
 }
 
-export default async function updateFoodPref(req: Request, res: Response) {
+const updateFoodPref = async (req: Request, res: Response) => {
     const prevFoodPrefData = await request(String(process.env.GRAPHQL_URL), getFoodPrefQuery, {
         userId: req.body.userId
     })
@@ -39,3 +39,5 @@ export default async function updateFoodPref(req: Request, res: Response) {
     })
     res.send('FoodPref updated')
 }
+
+export default updateFoodPref;

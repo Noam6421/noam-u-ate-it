@@ -24,7 +24,7 @@ const AppBarHome = () => {
     const classes = useStyles();
     const { user } = useContext(AppContext);
     const history = useHistory();
-    const logout = async () => {
+    const logout = () => {
         history.push("/");
     } 
     return(

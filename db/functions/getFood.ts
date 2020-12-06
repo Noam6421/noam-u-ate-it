@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 import { getFoodQuery } from "../queries/getFoodQuery";
 
-export default async function getFood(req: Request, res: Response) {
+const getFood = async (req: Request, res: Response) => {
     const data = await request(String(process.env.GRAPHQL_URL), getFoodQuery)
     const foodList: Object[] = [];
     if (!data) {
@@ -13,4 +13,7 @@ export default async function getFood(req: Request, res: Response) {
         foodList.push({name: node.foodName, value: node.id})
     })
     res.send(foodList)
-}
+};
+
+export default getFood;
+

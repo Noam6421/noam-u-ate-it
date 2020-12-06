@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 import { getUserByEmailQuery } from "../queries/getUserByEmailQuery";
 
-export default async function getUser(req: Request, res: Response) {
+const getUser = async (req: Request, res: Response) => {
     const data = await request(String(process.env.GRAPHQL_URL), getUserByEmailQuery, {
         email: req.query.email
     })
@@ -13,4 +13,6 @@ export default async function getUser(req: Request, res: Response) {
         return res.send({userId: 'newUser'})
     }
     res.send({userId: data.userByEmail.id, userData: data.userByEmail});
-}
+};
+
+export default getUser;
