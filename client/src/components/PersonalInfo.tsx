@@ -1,11 +1,12 @@
-import React, { ChangeEvent, ReactNode, useContext } from 'react'
-import DateFnsUtils from '@date-io/date-fns';
+import moment from "moment";
 import { makeStyles } from '@material-ui/core/styles';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { Box, TextField, Typography, Select, MenuItem, InputLabel, FormControl, Button } from '@material-ui/core';
+import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useContext, useEffect } from 'react';
+import { TextField, Select, MenuItem, InputLabel, FormControl, Button, Grid } from '@material-ui/core';
 
 import AppContext from '../context/context';
+import schema from './form/personalInfoSchema';
+import { Controller, useForm } from 'react-hook-form';
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
       flexGrow: 1,
     },
     textField: {
+        direction: 'rtl',
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         width: 200,
@@ -23,126 +25,177 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(1),
         minWidth: 200,
     },
+    legend:{
+        textAlign: 'left'
+    }
 }));
+
+interface FormData {
+    name: string
+    lastName: string
+    birthDate: Date
+    beer?: string 
+    idNum: string
+    phone: string
+}
 
 const PersonalInfo = () => {
     const classes = useStyles();
-    const { setValue, name, setName, lastName, setLastName, 
-            birthDate, setBirthDate, isMinor, setIsMinor, 
+    const { setTab, name, setName, lastName, setLastName, 
+            birthDate, setBirthDate, 
             beer, setBeer, idNum, setIdNum, phone, setPhone 
     } = useContext(AppContext);
-    const alphaRegex = /^[a-z\u0590-\u05fe]+$/i;
-    const handleNameChange = (e: {target: {value: string}}) => {
-        if ((e.target.value === '' || alphaRegex.test(e.target.value)) && e.target.value.length <= 50) {
-          setName(e.target.value)
-        }    
-    }
-    const handleLastNameChange = (e: {target: {value: string}}) => {
-        if ((e.target.value === '' || alphaRegex.test(e.target.value)) && e.target.value.length <= 50) {
-          setLastName(e.target.value)
-        }    
-    }
-    const handleBirthDateChange = (date: MaterialUiPickersDate) => {
-        setBirthDate(date);
-        var currentDate: Date = new Date();
-        var ageDifMs = currentDate.getTime() - birthDate.getTime();
-        var ageDate: Date = new Date(ageDifMs); // miliseconds from epoch
-        var age = Math.abs(ageDate.getUTCFullYear() - 1970)
-        if (age > 18){
-            setIsMinor(false);
+    useEffect(() => {
+        setValue('name', name);
+        setValue('lastName', lastName);
+        setValue('birthDate', birthDate);
+        setValue('beer', beer);
+        setValue('idNum', idNum);
+        setValue('phone', phone);
+    }, [])
+    const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
+        resolver: yupResolver(schema),
+        defaultValues: {beer}
+    });
+    const birthDateValue = watch('birthDate');
+    const onSubmit = (data:FormData) => {
+        console.log('PersonalInfoData:', data);
+        if (Object.keys(errors).length === 0){
+            setName(data.name);
+            setLastName(data.lastName);
+            setBirthDate(data.birthDate);
+            setBeer(data.beer);
+            setIdNum(data.idNum);
+            setPhone(data.phone);
+            setTab(1);
         }
-    }
-    const handleBeerChange = (e: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => {
-        setBeer(e.target.value);
-    }
-    const handleIdNumChange = (e: {target: {value: string}}) => {
-        setIdNum(e.target.value);
-    }
-    const handlePhoneChange = (e: {target: {value: string}}) => {
-        setPhone(e.target.value);
-    }
+    };
+    let min_date = moment().subtract(18, 'years');
     return(
-        <div className={classes.root}>
-            <Box display="flex">
-                <Typography variant="h6">
-                    שם פרטי
-                </Typography>
-                <TextField
-                    required
-                    id="name"
-                    variant="outlined"
-                    value={name}
-                    onChange={handleNameChange}
-                />
-            </Box>
-            <Box display="flex">
-                <Typography variant="h6">
-                    שם משפחה
-                </Typography>
-                <TextField
-                    required
-                    id="outlined"
-                    variant="outlined"
-                    value={lastName}
-                    onChange={handleLastNameChange}
-                />
-            </Box>
-            <Box display="flex">
-                <Typography variant="h6">
-                    תאריך לידה 
-                </Typography>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <DatePicker
-                        animateYearScrolling
-                        id="date-picker-inline"
-                        value={birthDate}
-                        onChange={handleBirthDateChange}
-                        maxDate = {new Date()}
-                    />
-                </MuiPickersUtilsProvider>
-            </Box>
-            <Box display="flex">
-                <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-outlined-label">מה הבירה האהובה עלייך?</InputLabel>
-                    <Select
-                        id="demo-simple-select-outlined"
-                        value={beer}
-                        onChange={handleBeerChange}
-                        label="מה הבירה האהובה עלייך?"
-                        autoWidth={true}
-                        disabled={isMinor}
-                    >
-                        <MenuItem value={'Apa'}>APA</MenuItem>
-                        <MenuItem value={'Ale'}>Ale</MenuItem>
-                        <MenuItem value={'Lager'}>Lager</MenuItem>
-                    </Select>
-                </FormControl>
-            </Box>
-            <Box display="flex">
-                <Typography variant="h6">
-                     ת.ז
-                </Typography>
-                <TextField
-                    required
-                    id="idNum"
-                    variant="outlined"
-                    value={idNum}
-                    onChange={handleIdNumChange}
-                />
-            </Box>
-            <Box display="flex">
-                <Typography variant="h6">
-                    טלפון
-                </Typography>
-                <TextField
-                    required
-                    id="phone"
-                    variant="outlined"
-                    value={phone}
-                    onChange={handlePhoneChange}
-                />
-            </Box>
-            <Button variant="contained"  onClick={() => { setValue(1) }}>המשך</Button>
+        <div className={classes.root} dir="rtl">
+            <form onSubmit={handleSubmit(onSubmit)} id='personalInfo'>
+                <Grid container spacing={4}>
+                    <Grid item xs={3}>
+                        <TextField
+                            name="name"
+                            label="שם פרטי"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            inputRef={register}
+                            id="name"
+                            variant="outlined"
+                        />
+                        <p>{errors.name?.message}</p>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <TextField
+                            name="lastName"
+                            label="שם משפחה"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            inputRef={register}
+                            required
+                            id="lastName"
+                            variant="outlined"
+                        />
+                        <p>{errors.lastName?.message}</p>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={4}>
+                    <Grid item xs={3}>
+                        <Controller
+                            name="birthDate"
+                            control={control}
+                            render={props =>
+                                <TextField
+                                    name="birthDate"
+                                    id="birthDate"
+                                    label="תאריך לידה"
+                                    type="date"
+                                    variant="outlined"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={(newValue) => props.onChange(newValue)}
+                                    value={props.value}
+                                />
+                            }
+                        />
+                        <p>{errors.birthDate?.message}</p>
+                    </Grid>
+                    {moment(birthDateValue).isBefore(min_date) &&
+                        <Grid item xs={3}>
+                            <Controller
+                                name="beer"
+                                control={control}
+                                render={props =>
+                                    <FormControl variant="outlined" className={classes.formControl}>
+                                        <InputLabel id="beer-label">מה הבירה האהובה עלייך?</InputLabel>
+                                        <Select
+                                            id="beer"
+                                            name="beer"
+                                            onChange={(newValue) => props.onChange(newValue)}
+                                            value={props.value}
+                                            label="מה הבירה האהובה עלייך?"
+                                            autoWidth={true}
+                                        >
+                                            <MenuItem value={'APA'}>APA</MenuItem>
+                                            <MenuItem value={'Ale'}>Ale</MenuItem>
+                                            <MenuItem value={'Lager'}>Lager</MenuItem>
+                                        </Select>
+                                    </FormControl>                                    
+                                }
+                            />
+                        <p>{errors.beer?.message}</p>
+                        </Grid>
+                    }
+                </Grid>
+                <Grid container spacing={4}>
+                    <Grid item xs={3}>
+                        <TextField
+                            name="idNum"
+                            label="ת.ז"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            required
+                            id="idNum"
+                            variant="outlined"
+                            inputRef={register}
+                        />
+                        <p>{errors.idNum?.message}</p>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={4}>
+                    <Grid item xs={3}>
+                        <TextField
+                            name="phone"
+                            label="טלפון"
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            required
+                            id="phone"
+                            variant="outlined"
+                            inputRef={register}
+                        />
+                        <p>{errors.phone?.message}</p>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={4}>
+                    <Grid item xs={3}>
+                        <Button 
+                            variant="contained" 
+                            type="submit" 
+                            form="personalInfo"
+                        >
+                            המשך
+                        </Button>
+                    </Grid>
+                </Grid>
+            </form>
         </div>
     )
 }

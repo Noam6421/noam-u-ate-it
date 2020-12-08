@@ -6,8 +6,8 @@ export const updateUserMutation = gql`
         $name: String!
         $lastName: String!
         $birthDate: Date!
-        $idNum: BigFloat!
-        $phone: BigFloat!
+        $idNum: String!
+        $phone: String!
         $beer: String
     ) {
     updateUserByEmail(
