@@ -17,38 +17,15 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = () => {
     const classes = useStyles();
-    const { setUser, email, 
+    const {
         userId, setUserId, 
-        setEmail, setName, 
+        setName, 
         setLastName, 
-        birthDate, setBirthDate, 
-        setIsMinor, foodPref, foodList, 
+        setBirthDate, 
         setBeer, setIdNum, 
         setPhone, setFoodPref,
         setTab
     } = useContext(AppContext);  
-    const fetchData = async () => {
-        const res = await axios.get('/user',{
-            params: { email: localStorage.getItem('email') }
-            });
-        if (res.status === 200) {
-            if (res.data.userId === 'newUser'){
-                setTab(0)
-            } else {
-                //if user exists sets his data to stata
-                setUserId(res.data.userData.id)
-                setName(res.data.userData.name);
-                setLastName(res.data.userData.lastName);
-                setBirthDate(res.data.userData.birthDate);
-                setBeer(res.data.userData.beer);
-                setIdNum(res.data.userData.idNum);
-                setPhone(res.data.userData.phone);
-            }
-        }
-    }
-    useEffect(() => {
-        fetchData();
-    }, []);
     useEffect(() => {
         async function fetchData() {
             // get user foodPrefs

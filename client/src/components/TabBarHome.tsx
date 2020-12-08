@@ -11,14 +11,12 @@ import FavFood from './FavFood';
 import PersonalInfo from './PersonalInfo';
 import AppContext from '../context/context';
 
-
 interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
     value: any;
 }
 
-  
 function TabPanel(props: TabPanelProps) {
     const { children, value, index } = props;
     return (
@@ -43,7 +41,6 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
   
-
 function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
@@ -58,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
   
-
 const TabBarHome = () => {
     const classes = useStyles();
     const { tab, setTab } = useContext(AppContext);

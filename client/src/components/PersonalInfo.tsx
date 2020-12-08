@@ -1,11 +1,8 @@
 import moment from "moment";
-import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { ChangeEvent, ReactNode, useContext, useEffect } from 'react';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { Box, TextField, Typography, Select, MenuItem, InputLabel, FormControl, Button, Grid } from '@material-ui/core';
+import React, { useContext, useEffect } from 'react';
+import { TextField, Select, MenuItem, InputLabel, FormControl, Button, Grid } from '@material-ui/core';
 
 import AppContext from '../context/context';
 import schema from './form/personalInfoSchema';
@@ -43,19 +40,26 @@ interface FormData {
 }
 
 const PersonalInfo = () => {
-    var showBeer = false;
     const classes = useStyles();
     const { setTab, name, setName, lastName, setLastName, 
             birthDate, setBirthDate, 
             beer, setBeer, idNum, setIdNum, phone, setPhone 
     } = useContext(AppContext);
+    useEffect(() => {
+        setValue('name', name);
+        setValue('lastName', lastName);
+        setValue('birthDate', birthDate);
+        setValue('beer', beer);
+        setValue('idNum', idNum);
+        setValue('phone', phone);
+    }, [])
     const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
         resolver: yupResolver(schema),
         defaultValues: {beer}
     });
     const birthDateValue = watch('birthDate');
     const onSubmit = (data:FormData) => {
-        alert(JSON.stringify(data))
+        console.log('PersonalInfoData:', data);
         if (Object.keys(errors).length === 0){
             setName(data.name);
             setLastName(data.lastName);
@@ -66,14 +70,6 @@ const PersonalInfo = () => {
             setTab(1);
         }
     };
-    useEffect(() => {
-        setValue('name', name);
-        setValue('lastName', lastName);
-        setValue('birthDate', birthDate);
-        setValue('beer', beer);
-        setValue('idNum', idNum);
-        setValue('phone', phone);
-    }, [])
     let min_date = moment().subtract(18, 'years');
     return(
         <div className={classes.root} dir="rtl">

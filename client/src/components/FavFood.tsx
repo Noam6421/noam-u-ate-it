@@ -3,12 +3,11 @@ import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { useContext, useRef, useState, useEffect } from 'react';
-import { TextField, FormControlLabel, Button, Checkbox, Grid} from '@material-ui/core';
+import React, { useContext, useState, useEffect } from 'react';
+import { TextField, Button, Checkbox, Grid} from '@material-ui/core';
 
 import schema from './form/favFoodSchema';
 import AppContext from '../context/context';
-
 
 interface Food {
     name: string;
@@ -46,7 +45,6 @@ const FavFood = () => {
         beer, idNum, phone, 
         setFoodList, foodList,
         setFoodPref, foodPref,
-        formError, setFormError
     } = useContext(AppContext);
     const history = useHistory();
     useEffect(() => {
@@ -76,10 +74,6 @@ const FavFood = () => {
         resolver: yupResolver(schema),
     });
     const otherValue = watch('other');
-    useEffect(() => {
-        console.log(otherValue);
-        //setValue('name', name);
-    }, [otherValue])
     const validateForm = async () => {
         if (foodPref.length === 0 && other === false) {
             setUserMes('יש לבחור לפחות העדפת אוכל אחת')
@@ -107,9 +101,8 @@ const FavFood = () => {
         }
     }
     const onSubmit = async (data:FormData) => {
-        setFormError(false)
         setUserMes('')
-        alert(JSON.stringify(data))
+        console.log('FavFoodData', data);
         if (Object.keys(errors).length === 0 || errors == null){
             setOther(data.other === 'true' ? true : false);
             setOtherText(typeof data.otherText === 'string' ? data.otherText : '')
