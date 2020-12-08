@@ -12,13 +12,14 @@ import AppContext from '../context/context';
 
 interface Food {
     name: string;
-    value?: number;
+    value: number;
     id?: number;
 }
 
 interface FormData {
     other?: string; 
     otherText?: string;
+    foods: [];
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -59,11 +60,16 @@ const FavFood = () => {
     const [other, setOther] =  useState(false);
     const [otherText, setOtherText] = useState('');
     const [userMes, setUserMes] = useState('');
-    const handleCheckedChange = (e: {target: {id: string, name: string, value: string}}) => {
-        if (foodPref.some((foodPrefItem: Food) => foodPrefItem.name === e.target.name)) {
-            setFoodPref(foodPref.filter((foodPrefItem: Food) => foodPrefItem.name !== e.target.name ))
+    const [checkedList, setCheckedList] = useState(foodPref);
+    const handleCheckedChange = (food: {name: string, value: number}) => {
+        if (checkedList.some((checkedItem: Food) => checkedItem.name === food.name)) {
+            const newFoods = checkedList.filter((checkedItem: Food) => checkedItem.name !== food.name )
+            setCheckedList(newFoods);
+            return newFoods
         } else {
-            setFoodPref([...foodPref, {name: e.target.name, value: parseInt(e.target.value)}]);
+            const newFoods = [...checkedList, {name: food.name, value: food.value}]
+            setCheckedList(newFoods);
+            return newFoods
         }
     }
     const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
@@ -104,10 +110,10 @@ const FavFood = () => {
         setFormError(false)
         setUserMes('')
         alert(JSON.stringify(data))
-        console.log(errors);
-        if (Object.keys(errors).length === 0){
+        if (Object.keys(errors).length === 0 || errors == null){
             setOther(data.other === 'true' ? true : false);
             setOtherText(typeof data.otherText === 'string' ? data.otherText : '')
+            setFoodPref(data.foods);
         }
         const formValid = await validateForm()
         if (formValid) {
@@ -151,14 +157,18 @@ const FavFood = () => {
             <form onSubmit={handleSubmit(onSubmit)} id='favFood'>
                 {foodList.map((food: Food) => (
                         <Grid item xs={3}>
-                            <Checkbox
-                                checked={
-                                    foodPref.some((foodPrefItem: Food) => foodPrefItem.name === food.name)
+                            <Controller
+                                control={control}
+                                name='foods'
+                                render={props => 
+                                    <Checkbox
+                                        name={food.name}
+                                        value={food.value}
+                                        checked={checkedList.some((checkedItem: Food) => checkedItem.name === food.name)}
+                                        color="primary"
+                                        onChange={() => props.onChange(handleCheckedChange({name: food.name, value: food.value}))}
+                                    />
                                 }
-                                onChange={handleCheckedChange}
-                                name={food.name}
-                                value={food.value}
-                                color="primary"
                             />
                             <label>{food.name}</label>
                         </Grid>
