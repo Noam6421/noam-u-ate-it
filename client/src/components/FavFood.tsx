@@ -72,17 +72,18 @@ const FavFood = () => {
     }
     const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
         resolver: yupResolver(schema),
+        defaultValues: {foods: foodPref}
     });
     const otherValue = watch('other');
-    const validateForm = async () => {
-        if (foodPref.length === 0 && other === false) {
+    const validateForm = async (data: FormData) => {
+        if (data.foods.length === 0 && data.other === "false") {
             setUserMes('יש לבחור לפחות העדפת אוכל אחת')
             return false
-        } else if (other) {
-            if (otherText === ''){
+        } else if (data.other === "false") {
+            if (data.otherText === ''){
                 setUserMes('אם שדה אחר מסומן, יש למלא ערך')
                 return false
-            } else if (foodList.some((food: Food) => food.name === otherText)){
+            } else if (foodList.some((food: Food) => food.name === data.otherText)){
                 setUserMes('מאכל זה כבר קיים ברשימה, אנא סמן אותו ומחק את אופציית אחר')
                 return false
             } else{
@@ -92,12 +93,12 @@ const FavFood = () => {
             return true
         }
     }
-    const addOther = async () => {
-        if (other) {
-            const newFoodData = await axios.post('/food', {otherText})
-            return ([...foodPref, {name: otherText, value: newFoodData.data.id}]);
+    const addOther = async (data: FormData) => {
+        if (data.other === 'true') {
+            const newFoodData = await axios.post('/food', {other: data.otherText})
+            return ([...data.foods, {name: data.otherText, value: newFoodData.data.id}]);
         } else {
-            return foodPref
+            return data.foods
         }
     }
     const onSubmit = async (data:FormData) => {
@@ -108,7 +109,7 @@ const FavFood = () => {
             setOtherText(typeof data.otherText === 'string' ? data.otherText : '')
             setFoodPref(data.foods);
         }
-        const formValid = await validateForm()
+        const formValid = await validateForm(data)
         if (formValid) {
             if (!userId){
                 try {
@@ -116,7 +117,7 @@ const FavFood = () => {
                         birthDate, isMinor, beer, 
                         idNum, phone})
                     const userId = newUser.data.userId; 
-                    const foodPrefWithOther = await addOther();
+                    const foodPrefWithOther = await addOther(data);
                     await axios.post('/foodPref', {
                         userId,
                         foodPref: foodPrefWithOther
@@ -132,7 +133,7 @@ const FavFood = () => {
                         birthDate, isMinor, beer, 
                         idNum, phone})
                     const userId = updatedUser.data.userId; 
-                    const foodPrefWithOther = await addOther();
+                    const foodPrefWithOther = await addOther(data);
                     await axios.put('/foodPref', {
                         userId,
                         foodPref: foodPrefWithOther
