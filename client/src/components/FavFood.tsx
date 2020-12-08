@@ -1,15 +1,24 @@
 import axios from 'axios';
+import { Controller, useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useContext, useRef, useState, useEffect } from 'react'
-import { TextField, FormControlLabel, Button, Checkbox} from '@material-ui/core';
+import { yupResolver } from '@hookform/resolvers/yup';
+import React, { useContext, useRef, useState, useEffect } from 'react';
+import { TextField, FormControlLabel, Button, Checkbox, Grid} from '@material-ui/core';
 
+import schema from './form/favFoodSchema';
 import AppContext from '../context/context';
+
 
 interface Food {
     name: string;
     value?: number;
     id?: number;
+}
+
+interface FormData {
+    other?: string; 
+    otherText?: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +43,6 @@ const FavFood = () => {
     const { user, userId, email, name, lastName, 
         birthDate, isMinor, 
         beer, idNum, phone, 
-        checkedList, setCheckedList,
         setFoodList, foodList,
         setFoodPref, foodPref,
         formError, setFormError
@@ -47,40 +55,34 @@ const FavFood = () => {
         }
         fetchData();
     }, []);
-    // useEffect(() => {
-    //     if (formError){
-    //         setUserMes('Error')
-    //     }
-    // }, [formError]);
     const classes = useStyles();
-    const textInput = useRef<HTMLInputElement>()
-    const [other, setOther] = useState('');
-    const [otherChecked, setOtherChecked] = useState(false);
+    const [other, setOther] =  useState(false);
+    const [otherText, setOtherText] = useState('');
     const [userMes, setUserMes] = useState('');
     const handleCheckedChange = (e: {target: {id: string, name: string, value: string}}) => {
-        if (e.target.id === 'other') {
-            if (textInput.current !== null && textInput.current !== undefined){
-                textInput.current.focus();
-                setOtherChecked(!otherChecked)
-            }
-        } else if (foodPref.some((foodPrefItem: Food) => foodPrefItem.name === e.target.name)) {
+        if (foodPref.some((foodPrefItem: Food) => foodPrefItem.name === e.target.name)) {
             setFoodPref(foodPref.filter((foodPrefItem: Food) => foodPrefItem.name !== e.target.name ))
         } else {
             setFoodPref([...foodPref, {name: e.target.name, value: parseInt(e.target.value)}]);
         }
     }
-    const handleOtherChange = (e: {target: {value: string}}) => {
-        setOther(e.target.value)
-    } 
+    const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
+        resolver: yupResolver(schema),
+    });
+    const otherValue = watch('other');
+    useEffect(() => {
+        console.log(otherValue);
+        //setValue('name', name);
+    }, [otherValue])
     const validateForm = async () => {
-        if (foodPref.length === 0 && otherChecked === false) {
+        if (foodPref.length === 0 && other === false) {
             setUserMes('יש לבחור לפחות העדפת אוכל אחת')
             return false
-        } else if (otherChecked) {
-            if (other === ''){
+        } else if (other) {
+            if (otherText === ''){
                 setUserMes('אם שדה אחר מסומן, יש למלא ערך')
                 return false
-            } else if (foodList.some((food: Food) => food.name === other)){
+            } else if (foodList.some((food: Food) => food.name === otherText)){
                 setUserMes('מאכל זה כבר קיים ברשימה, אנא סמן אותו ומחק את אופציית אחר')
                 return false
             } else{
@@ -91,16 +93,22 @@ const FavFood = () => {
         }
     }
     const addOther = async () => {
-        if (otherChecked) {
-            const newFoodData = await axios.post('/food', {other})
-            return ([...foodPref, {name: other, value: newFoodData.data.id}]);
+        if (other) {
+            const newFoodData = await axios.post('/food', {otherText})
+            return ([...foodPref, {name: otherText, value: newFoodData.data.id}]);
         } else {
             return foodPref
         }
     }
-    const handleSubmit = async () => {
+    const onSubmit = async (data:FormData) => {
         setFormError(false)
         setUserMes('')
+        alert(JSON.stringify(data))
+        console.log(errors);
+        if (Object.keys(errors).length === 0){
+            setOther(data.other === 'true' ? true : false);
+            setOtherText(typeof data.otherText === 'string' ? data.otherText : '')
+        }
         const formValid = await validateForm()
         if (formValid) {
             if (!userId){
@@ -140,50 +148,68 @@ const FavFood = () => {
     }
     return(
         <div className={classes.root}>
-            {foodList.map((food: Food) => (
-                <div>
-                    <FormControlLabel
-                        control={
-                        <Checkbox
-                            checked={
-                                foodPref.some((foodPrefItem: Food) => foodPrefItem.name === food.name)
+            <form onSubmit={handleSubmit(onSubmit)} id='favFood'>
+                {foodList.map((food: Food) => (
+                        <Grid item xs={3}>
+                            <Checkbox
+                                checked={
+                                    foodPref.some((foodPrefItem: Food) => foodPrefItem.name === food.name)
+                                }
+                                onChange={handleCheckedChange}
+                                name={food.name}
+                                value={food.value}
+                                color="primary"
+                            />
+                            <label>{food.name}</label>
+                        </Grid>
+                ))}
+                <Grid container spacing={4}>
+                    <Grid item xs={1}>
+                        <Controller
+                            control={control}
+                            name="other"
+                            render={props => 
+                                <Checkbox
+                                    name="other"
+                                    id="other"
+                                    onChange={(e) => props.onChange(e.target.checked)}
+                                    checked={props.value}
+                                />
                             }
-                            onChange={handleCheckedChange}
-                            name={food.name}
-                            value={food.value}
-                            color="primary"
                         />
-                        }
-                        label={food.name}
-                    />
-                </div>
-            ))}
-            <div>
-                <FormControlLabel
-                    control={
-                    <Checkbox
-                        id="other"
-                        checked={otherChecked}
-                        onChange={handleCheckedChange}
-                        name={other}
-                        color="primary"
-                    />
+                        <label>אחר</label>
+                    </Grid>
+                    {otherValue &&
+                        <Grid item xs={3}>
+                            <TextField
+                                name="otherText"
+                                label="אוכל אחר"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                inputRef={register}
+                                id="otherText"
+                                variant="outlined"
+                            />
+                            <p>{errors.other?.message}</p>
+                        </Grid>
                     }
-                    label={
-                        <TextField 
-                            id="standard-basic" 
-                            value={other} 
-                            placeholder="אחר" 
-                            onChange={handleOtherChange}
-                            inputRef={textInput} 
-                        />
-                    }
-                />
-            </div>
-            <Button variant="contained" onClick={handleSubmit} >סיום</Button>
-            {userMes !== '' && 
-                    <p>{userMes}</p> 
-            }
+                </Grid>
+                <Grid container spacing={4}>
+                    <Grid item xs={3}>
+                        <Button 
+                        variant="contained" 
+                        type="submit" 
+                        form="favFood"
+                        >
+                            סיום
+                        </Button>
+                    </Grid>
+                </Grid>
+                {userMes !== '' && 
+                        <p>{userMes}</p> 
+                }
+            </form>
         </div>
     )
 }

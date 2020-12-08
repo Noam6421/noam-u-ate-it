@@ -17,7 +17,6 @@ const schema = yup.object().shape({
     beer: yup.string(),
     idNum: yup.string()
         .test('israeliId', 'ID is not valid', function (value) {
-            console.log(value,  isIsraeliIdValid(value))
             return isIsraeliIdValid(value)
         })
         .required(),

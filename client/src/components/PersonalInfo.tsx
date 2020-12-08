@@ -49,9 +49,6 @@ const PersonalInfo = () => {
             birthDate, setBirthDate, 
             beer, setBeer, idNum, setIdNum, phone, setPhone 
     } = useContext(AppContext);
-    const handleBeerChange = (e: ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: ReactNode) => {
-        setBeer(e.target.value);
-    }
     const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
         resolver: yupResolver(schema),
         defaultValues: {beer}
@@ -59,7 +56,6 @@ const PersonalInfo = () => {
     const birthDateValue = watch('birthDate');
     const onSubmit = (data:FormData) => {
         alert(JSON.stringify(data))
-        console.log(errors);
         if (Object.keys(errors).length === 0){
             setName(data.name);
             setLastName(data.lastName);
@@ -195,9 +191,9 @@ const PersonalInfo = () => {
                 <Grid container spacing={4}>
                     <Grid item xs={3}>
                         <Button 
-                        variant="contained" 
-                        type="submit" 
-                        form="personalInfo"
+                            variant="contained" 
+                            type="submit" 
+                            form="personalInfo"
                         >
                             המשך
                         </Button>
