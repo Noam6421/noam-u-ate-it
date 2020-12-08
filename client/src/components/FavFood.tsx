@@ -79,7 +79,7 @@ const FavFood = () => {
         if (data.foods.length === 0 && data.other === "false") {
             setUserMes('יש לבחור לפחות העדפת אוכל אחת')
             return false
-        } else if (data.other === "false") {
+        } else if (data.other === "true") {
             if (data.otherText === ''){
                 setUserMes('אם שדה אחר מסומן, יש למלא ערך')
                 return false
