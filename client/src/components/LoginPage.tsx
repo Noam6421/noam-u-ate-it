@@ -9,7 +9,7 @@ const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_
 
 
 const LoginPage = () => {
-    const { setUser, setEmail, setValue } = useContext(AppContext);    
+    const { setUser, setEmail, setTab } = useContext(AppContext);    
     const history = useHistory();
     const login = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
         if ("profileObj" in response){
@@ -17,7 +17,7 @@ const LoginPage = () => {
             setEmail(response.profileObj.email)
             localStorage.setItem('user', response.profileObj.name)
             localStorage.setItem('email', response.profileObj.email)
-            setValue(0)
+            setTab(0)
             history.push("/home");
         }
     }

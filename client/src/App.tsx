@@ -7,7 +7,7 @@ const App = () => {
     const [user, setUser] = useState<string>('');
     const [userId, setUserId] = useState<number>();
     const [email, setEmail] = useState<string>('');
-    const [value, setValue] = useState<number>(0);
+    const [tab, setTab] = useState<number>(0);
     const [name, setName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [birthDate, setBirthDate] = useState<Date>(new Date('2014-08-18T21:11:54'));
@@ -22,7 +22,7 @@ const App = () => {
         user, setUser, 
         userId, setUserId, 
         email, setEmail, 
-        value, setValue, 
+        tab, setTab, 
         name, setName, 
         lastName, setLastName, 
         birthDate, setBirthDate, 

@@ -61,22 +61,22 @@ const useStyles = makeStyles((theme) => ({
 
 const TabBarHome = () => {
     const classes = useStyles();
-    const { value, setValue } = useContext(AppContext);
+    const { tab, setTab } = useContext(AppContext);
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-        setValue(newValue);
+        setTab(newValue);
     };
     return(
         <div className={classes.root}>
             <AppBar position="static">
-            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+            <Tabs value={tab} onChange={handleChange} aria-label="simple tabs example">
                 <Tab label="פרטים אישיים" {...a11yProps(0)} />
                 <Tab label="מאכלים אהובים" {...a11yProps(1)} />
             </Tabs>
             </AppBar>
-            <TabPanel value={value} index={0}>
+            <TabPanel value={tab} index={0}>
                 <PersonalInfo/>
             </TabPanel>
-            <TabPanel value={value} index={1}>
+            <TabPanel value={tab} index={1}>
                 <FavFood/>
             </TabPanel>
         </div>

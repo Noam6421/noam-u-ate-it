@@ -25,7 +25,7 @@ const HomePage = () => {
         setIsMinor, foodPref, foodList, 
         setBeer, setIdNum, 
         setPhone, setFoodPref,
-        setValue
+        setTab
     } = useContext(AppContext);  
     const fetchData = async () => {
         const res = await axios.get('/user',{
@@ -33,7 +33,7 @@ const HomePage = () => {
             });
         if (res.status === 200) {
             if (res.data.userId === 'newUser'){
-                setValue(0)
+                setTab(0)
             } else {
                 //if user exists sets his data to stata
                 setUserId(res.data.userData.id)
@@ -43,15 +43,6 @@ const HomePage = () => {
                 setBeer(res.data.userData.beer);
                 setIdNum(res.data.userData.idNum);
                 setPhone(res.data.userData.phone);
-                // according to his birthDate sets isMinor state
-                console.log(birthDate);
-                var currentDate: Date = new Date();
-                var ageDifMs = currentDate.getTime() - birthDate.getTime();
-                var ageDate: Date = new Date(ageDifMs); // miliseconds from epoch
-                var age = Math.abs(ageDate.getUTCFullYear() - 1970)
-                if (age > 18){
-                    setIsMinor(false);
-                }
             }
         }
     }
