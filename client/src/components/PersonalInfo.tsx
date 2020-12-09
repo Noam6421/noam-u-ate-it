@@ -7,6 +7,8 @@ import { TextField, Select, MenuItem, InputLabel, FormControl, Button, Grid } fr
 import AppContext from '../context/context';
 import schema from './form/personalInfoSchema';
 import { Controller, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../store/actions";
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -40,33 +42,27 @@ interface FormData {
 }
 
 const PersonalInfo = () => {
+    const userInfo = useSelector<UserState, User>((state) => state.user)
+    const dispatch = useDispatch()
     const classes = useStyles();
-    const { setTab, name, setName, lastName, setLastName, 
-            birthDate, setBirthDate, 
-            beer, setBeer, idNum, setIdNum, phone, setPhone 
-    } = useContext(AppContext);
+    const { setTab } = useContext(AppContext);
     useEffect(() => {
-        setValue('name', name);
-        setValue('lastName', lastName);
-        setValue('birthDate', birthDate);
-        setValue('beer', beer);
-        setValue('idNum', idNum);
-        setValue('phone', phone);
+        setValue('name', userInfo.name);
+        setValue('lastName', userInfo.lastName);
+        setValue('birthDate', userInfo.birthDate);
+        setValue('beer', userInfo.beer);
+        setValue('idNum', userInfo.idNum);
+        setValue('phone', userInfo.phone);
     }, [])
     const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
         resolver: yupResolver(schema),
-        defaultValues: {beer}
+        defaultValues: {beer: userInfo.beer}
     });
     const birthDateValue = watch('birthDate');
     const onSubmit = (data:FormData) => {
         console.log('PersonalInfoData:', data);
         if (Object.keys(errors).length === 0){
-            setName(data.name);
-            setLastName(data.lastName);
-            setBirthDate(data.birthDate);
-            setBeer(data.beer);
-            setIdNum(data.idNum);
-            setPhone(data.phone);
+            dispatch(updateUser({...data}))
             setTab(1);
         }
     };

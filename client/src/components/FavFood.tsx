@@ -8,6 +8,7 @@ import { TextField, Button, Checkbox, Grid} from '@material-ui/core';
 
 import schema from './form/favFoodSchema';
 import AppContext from '../context/context';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface Food {
     name: string;
@@ -40,9 +41,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FavFood = () => {
-    const { user, userId, email, name, lastName, 
-        birthDate, isMinor, 
-        beer, idNum, phone, 
+    const userInfo = useSelector<UserState, User>((state) => state.user)
+    const { user, userId, 
         setFoodList, foodList,
         setFoodPref, foodPref,
     } = useContext(AppContext);
@@ -113,9 +113,7 @@ const FavFood = () => {
         if (formValid) {
             if (!userId){
                 try {
-                    const newUser = await axios.post('/user', {user, email, name, lastName, 
-                        birthDate, isMinor, beer, 
-                        idNum, phone})
+                    const newUser = await axios.post('/user', {...userInfo})
                     const userId = newUser.data.userId; 
                     const foodPrefWithOther = await addOther(data);
                     await axios.post('/foodPref', {
@@ -129,9 +127,7 @@ const FavFood = () => {
                 }
             } else {
                 try {
-                    const updatedUser = await axios.put('/user', {name, email, lastName, 
-                        birthDate, isMinor, beer, 
-                        idNum, phone})
+                    const updatedUser = await axios.put('/user', {...userInfo})
                     const userId = updatedUser.data.userId; 
                     const foodPrefWithOther = await addOther(data);
                     await axios.put('/foodPref', {

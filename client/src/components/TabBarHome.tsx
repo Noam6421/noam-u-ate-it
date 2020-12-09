@@ -66,7 +66,7 @@ const TabBarHome = () => {
             <AppBar position="static">
             <Tabs value={tab} onChange={handleChange} aria-label="simple tabs example">
                 <Tab label="פרטים אישיים" {...a11yProps(0)} />
-                <Tab label="מאכלים אהובים" {...a11yProps(1)} />
+                <Tab label="מאכלים אהובים" {...a11yProps(1)} disabled />
             </Tabs>
             </AppBar>
             <TabPanel value={tab} index={0}>

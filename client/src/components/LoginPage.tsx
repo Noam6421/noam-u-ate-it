@@ -4,18 +4,18 @@ import { useHistory } from 'react-router-dom';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 
 import AppContext from '../context/context';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../store/actions';
 
 const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_ID : '';
 
 const LoginPage = () => {
+    const user = useSelector<UserState, UserState['user']>((state) => state.user);
+    const dispatch = useDispatch()
     const {
         setUser, setEmail, 
         userId, setUserId, 
-        setName, 
-        setLastName, 
-        setBirthDate, 
-        setBeer, setIdNum, 
-        setPhone, setFoodPref,
+        setFoodPref,
         setTab
     } = useContext(AppContext);  
     const fetchData = async () => {
@@ -28,13 +28,8 @@ const LoginPage = () => {
                 history.push("/home");
             } else {
                 //if user exists sets his data to state
+                dispatch(getUser({...res.data.userData}))
                 setUserId(res.data.userData.id)
-                setName(res.data.userData.name);
-                setLastName(res.data.userData.lastName);
-                setBirthDate(res.data.userData.birthDate);
-                setBeer(res.data.userData.beer);
-                setIdNum(res.data.userData.idNum);
-                setPhone(res.data.userData.phone);
                 setTab(0);
                 history.push("/home");
             }
