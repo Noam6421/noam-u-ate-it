@@ -11,13 +11,6 @@ const App = () => {
     const [userId, setUserId] = useState<number>();
     const [email, setEmail] = useState<string>('');
     const [tab, setTab] = useState<number>(0);
-    const [name, setName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [birthDate, setBirthDate] = useState<Date>(new Date('2014-08-18T21:11:54'));
-    const [isMinor, setIsMinor] = useState<boolean>(true);
-    const [beer, setBeer] = useState<string>('');
-    const [idNum, setIdNum] = useState<string>('');
-    const [phone, setPhone] = useState<string>('');
     const [foodList, setFoodList] = useState<[]>([]);
     const [foodPref, setFoodPref] = useState<[]>([]);
     const [formError, setFormError] = useState<boolean>(false);
@@ -26,13 +19,6 @@ const App = () => {
         userId, setUserId, 
         email, setEmail, 
         tab, setTab, 
-        name, setName, 
-        lastName, setLastName, 
-        birthDate, setBirthDate, 
-        isMinor, setIsMinor, 
-        beer, setBeer, 
-        idNum, setIdNum, 
-        phone, setPhone, 
         foodList, setFoodList, 
         foodPref, setFoodPref,
         formError, setFormError

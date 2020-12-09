@@ -42,38 +42,27 @@ interface FormData {
 }
 
 const PersonalInfo = () => {
-    const user = useSelector<UserState, User>((state) => state.user)
+    const userInfo = useSelector<UserState, User>((state) => state.user)
     const dispatch = useDispatch()
-    console.log('reduxxxxxxxxxxxx',user);
     const classes = useStyles();
-    const { setTab, name, setName, lastName, setLastName, 
-            birthDate, setBirthDate, 
-            beer, setBeer, idNum, setIdNum, phone, setPhone 
-    } = useContext(AppContext);
+    const { setTab } = useContext(AppContext);
     useEffect(() => {
-        console.log(user.name, user);
-        setValue('name', user.name);
-        setValue('lastName', user.lastName);
-        setValue('birthDate', user.birthDate);
-        setValue('beer', user.beer);
-        setValue('idNum', user.idNum);
-        setValue('phone', user.phone);
+        setValue('name', userInfo.name);
+        setValue('lastName', userInfo.lastName);
+        setValue('birthDate', userInfo.birthDate);
+        setValue('beer', userInfo.beer);
+        setValue('idNum', userInfo.idNum);
+        setValue('phone', userInfo.phone);
     }, [])
     const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
         resolver: yupResolver(schema),
-        defaultValues: {beer: user.beer}
+        defaultValues: {beer: userInfo.beer}
     });
     const birthDateValue = watch('birthDate');
     const onSubmit = (data:FormData) => {
         console.log('PersonalInfoData:', data);
         if (Object.keys(errors).length === 0){
             dispatch(updateUser({...data}))
-            setName(data.name);
-            setLastName(data.lastName);
-            setBirthDate(data.birthDate);
-            setBeer(data.beer);
-            setIdNum(data.idNum);
-            setPhone(data.phone);
             setTab(1);
         }
     };

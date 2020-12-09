@@ -15,11 +15,7 @@ const LoginPage = () => {
     const {
         setUser, setEmail, 
         userId, setUserId, 
-        setName, 
-        setLastName, 
-        setBirthDate, 
-        setBeer, setIdNum, 
-        setPhone, setFoodPref,
+        setFoodPref,
         setTab
     } = useContext(AppContext);  
     const fetchData = async () => {
@@ -34,12 +30,6 @@ const LoginPage = () => {
                 //if user exists sets his data to state
                 dispatch(getUser({...res.data.userData}))
                 setUserId(res.data.userData.id)
-                setName(res.data.userData.name);
-                setLastName(res.data.userData.lastName);
-                setBirthDate(res.data.userData.birthDate);
-                setBeer(res.data.userData.beer);
-                setIdNum(res.data.userData.idNum);
-                setPhone(res.data.userData.phone);
                 setTab(0);
                 history.push("/home");
             }

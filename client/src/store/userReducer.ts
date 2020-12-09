@@ -2,7 +2,7 @@ const initalState = {
     user: {
         name: '',
         lastName: '',
-        birthDate: new Date(),
+        birthDate: new Date('2014-08-18T21:11:54'),
         beer: '',
         idNum: '',
         phone: ''

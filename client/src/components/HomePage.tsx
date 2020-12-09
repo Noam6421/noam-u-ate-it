@@ -18,12 +18,7 @@ const useStyles = makeStyles((theme) => ({
 const HomePage = () => {
     const classes = useStyles();
     const {
-        userId, setUserId, 
-        setName, 
-        setLastName, 
-        setBirthDate, 
-        setBeer, setIdNum, 
-        setPhone, setFoodPref,
+        userId, setUserId, setFoodPref,
         setTab
     } = useContext(AppContext);  
     useEffect(() => {
