@@ -1,7 +1,10 @@
+import { Provider } from "react-redux";
 import React, { useState, useEffect } from 'react';
+import { PersistGate } from 'redux-persist/integration/react'
 
 import AppRouter from './AppRouter';
 import AppContext from './context/context';
+import { store, persistor} from './store/store';
 
 const App = () => {
     const [user, setUser] = useState<string>('');
@@ -44,9 +47,13 @@ const App = () => {
       }, []);
     return (
         <AppContext.Provider value={contextValues}>
-            <AppRouter/>
-      </AppContext.Provider>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <AppRouter/>
+                </PersistGate>
+            </Provider>
+        </AppContext.Provider>
     )
 }
 
-export default App;
+export { App as default };

@@ -8,6 +8,7 @@ import { TextField, Button, Checkbox, Grid} from '@material-ui/core';
 
 import schema from './form/favFoodSchema';
 import AppContext from '../context/context';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface Food {
     name: string;
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FavFood = () => {
+    const myuser = useSelector<UserState, User>((state) => state.user)
     const { user, userId, email, name, lastName, 
         birthDate, isMinor, 
         beer, idNum, phone, 
