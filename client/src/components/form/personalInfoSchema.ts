@@ -13,7 +13,9 @@ const schema = yup.object().shape({
         .matches(alphaRegex, 'Last Name is not valid')
         .max(50)
         .required(),
-    birthDate: yup.date().required(),
+    birthDate: yup.date()
+        .max(new Date())
+        .required(),
     beer: yup.string(),
     idNum: yup.string()
         .test('israeliId', 'ID is not valid', function (value) {
