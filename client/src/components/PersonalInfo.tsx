@@ -6,6 +6,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField, Select, MenuItem, InputLabel, FormControl, Button, Grid, makeStyles } from '@material-ui/core';
 
+import User from '../models/User';
+import UserState from '../models/UserState';
+import PersonalInfoFormData from '../models/PersonalInfoFormData';
+
 import AppContext from '../context/context';
 import { updateUser } from '../store/actions';
 import schema from './form/personalInfoSchema';
@@ -31,15 +35,6 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'left'
     }
 }));
-
-interface FormData {
-    name: string
-    lastName: string
-    birthDate: Date
-    beer?: string 
-    idNum: string
-    phone: string
-}
 
 const PersonalInfo = () => {
 
@@ -67,13 +62,13 @@ const PersonalInfo = () => {
         }
     }, [userId]);
     
-    const { register, handleSubmit, watch, errors, control, setValue, reset,  } = useForm<FormData>({
+    const { register, handleSubmit, watch, errors, control, setValue, reset,  } = useForm<PersonalInfoFormData>({
         resolver: yupResolver(schema),
     });
 
     const birthDateValue = watch('birthDate');
 
-    const onSubmit = (data:FormData) => {
+    const onSubmit = (data:PersonalInfoFormData) => {
         console.log('PersonalInfoData:', data);
         if (Object.keys(errors).length === 0){
             dispatch(updateUser({...data}))

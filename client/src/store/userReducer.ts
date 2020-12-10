@@ -1,3 +1,6 @@
+import UserState from '../models/UserState';
+import UserAction from '../models/UserAction';
+
 const initalState = {
     user: {
         name: '',
@@ -7,7 +10,7 @@ const initalState = {
         idNum: '',
         phone: ''
     }
-}
+};
 
 export const userReducer = (state: UserState = initalState, action: UserAction ) => {
     switch(action.type){
@@ -20,4 +23,4 @@ export const userReducer = (state: UserState = initalState, action: UserAction )
         default:
             return state
     }
-}
+};

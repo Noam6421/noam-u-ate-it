@@ -1,3 +1,6 @@
+import User from '../models/User';
+import UserAction from '../models/UserAction';
+
 export const getUser = (user: User):UserAction => ({
     type: 'GET_USER',
     user

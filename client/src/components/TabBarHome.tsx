@@ -2,15 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { Tab, Box, Tabs, AppBar, Typography, makeStyles } from '@material-ui/core';
 
+import TabPanelProps from '../models/TabPanelProps';
+
 import FavFood from './FavFood';
 import PersonalInfo from './PersonalInfo';
 import AppContext from '../context/context';
-
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: any;
-    value: any;
-}
 
 function TabPanel(props: TabPanelProps) {
 

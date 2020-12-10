@@ -6,20 +6,14 @@ import { Controller, useForm } from 'react-hook-form';
 import React, { useContext, useState, useEffect } from 'react';
 import { TextField, Button, Checkbox, Grid, makeStyles } from '@material-ui/core';
 
+import User from '../models/User';
+import Food from '../models/Food';
+import UserState from '../models/UserState';
+import FavFoodFormData from '../models/FavFoodFormData';
+
 import schema from './form/favFoodSchema';
 import AppContext from '../context/context';
 
-interface Food {
-    name: string;
-    value: number;
-    id?: number;
-};
-
-interface FormData {
-    other?: string; 
-    otherText?: string;
-    foods: [];
-}
 
 const useStyles = makeStyles((theme) => ({
     logo: {
@@ -75,13 +69,13 @@ const FavFood = () => {
         }
     };
 
-    const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
+    const { register, handleSubmit, watch, errors, control, setValue } = useForm<FavFoodFormData>({
         resolver: yupResolver(schema),
         defaultValues: {foods: foodPref}
     });
     const otherValue = watch('other');
 
-    const validateForm = async (data: FormData) => {
+    const validateForm = async (data: FavFoodFormData) => {
         if (data.foods.length === 0 && data.other === 'false') {
             setUserMes('יש לבחור לפחות העדפת אוכל אחת')
             return false
@@ -100,7 +94,7 @@ const FavFood = () => {
         }
     };
 
-    const addOther = async (data: FormData) => {
+    const addOther = async (data: FavFoodFormData) => {
         if (data.other === 'true') {
             const newFoodData = await axios.post('/food', {other: data.otherText})
             return ([...data.foods, {name: data.otherText, value: newFoodData.data.id}]);
@@ -109,7 +103,7 @@ const FavFood = () => {
         }
     };
 
-    const onSubmit = async (data:FormData) => {
+    const onSubmit = async (data:FavFoodFormData) => {
         setUserMes('')
         console.log('FavFoodData', data);
         if (Object.keys(errors).length === 0 || errors == null){
