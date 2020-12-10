@@ -1,9 +1,9 @@
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { GoogleLogout } from 'react-google-login';
-import { AppBar, Typography, makeStyles } from '@material-ui/core';
+import { AppBar, Typography } from '@material-ui/core';
 
 import useStyles from './AppBarHomeStyles';
 import AppContext from '../context/context';
@@ -13,10 +13,12 @@ const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_
 const AppBarHome = () => {
 
     const classes = useStyles();
-    const { user } = useContext(AppContext);
+    const { user, setUser } = useContext(AppContext);
     const history = useHistory();
+    const location = useLocation();
 
     const logout = () => {
+        setUser('')
         history.push('/');
     }; 
 
@@ -36,6 +38,7 @@ const AppBarHome = () => {
                             </Typography>
                         </Box>
                     </Grid>
+                    {location.pathname !== '/' &&
                     <Grid item>
                         <Box display='flex' flexDirection='row' alignItems='center' padding={1}>
                             <Typography color='inherit' variant='h6'>
@@ -49,6 +52,7 @@ const AppBarHome = () => {
                             </GoogleLogout>
                         </Box>
                     </Grid>
+                    }
                 </Grid>
             </AppBar>      
         </div>

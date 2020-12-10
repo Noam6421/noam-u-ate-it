@@ -1,9 +1,12 @@
 import axios from 'axios';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { Grid, Typography } from '@material-ui/core';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 
+import AppBarHome from './AppBarHome';
+import useStyles from './LoginPageStyles';
 import { getUser } from '../store/actions';
 import AppContext from '../context/context';
 
@@ -11,6 +14,7 @@ const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_
 
 const LoginPage = () => {
 
+    const classes = useStyles();
     const dispatch = useDispatch()
     const history = useHistory();
 
@@ -55,14 +59,20 @@ const LoginPage = () => {
     
     return(
         <div>
-            <GoogleLogin
-                clientId={clientId}
-                buttonText='Login'
-                onSuccess={login}
-                onFailure={handleLoginFailure}
-                cookiePolicy='single_host_origin'
-                responseType='code,token'
-            />
+            <AppBarHome/>
+            <Grid container spacing={3}>
+                <Grid item xs={6}>
+                    <Typography variant='h5'>ברוכים הבאים לאכלת אותה! בואו נתחבר ומיד נתחיל...</Typography>
+                    <GoogleLogin
+                        clientId={clientId}
+                        buttonText='Login'
+                        onSuccess={login}
+                        onFailure={handleLoginFailure}
+                        cookiePolicy='single_host_origin'
+                        responseType='code,token'
+                    />
+                </Grid>
+            </Grid>
         </div>
     )
 }
