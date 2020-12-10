@@ -1,23 +1,26 @@
 import axios from 'axios';
-import React, { useContext, useEffect } from 'react';
+import { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 
-import AppContext from '../context/context';
-import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../store/actions';
+import AppContext from '../context/context';
 
 const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_ID : '';
 
 const LoginPage = () => {
-    const user = useSelector<UserState, UserState['user']>((state) => state.user);
+
     const dispatch = useDispatch()
+    const history = useHistory();
+
     const {
-        setUser, setEmail, 
-        userId, setUserId, 
-        setFoodPref,
+        setUser, 
+        setEmail, 
+        setUserId, 
         setTab
     } = useContext(AppContext);  
+
     const fetchData = async () => {
         const res = await axios.get('/user',{
             params: { email: localStorage.getItem('email') }
@@ -36,7 +39,6 @@ const LoginPage = () => {
         }
     }
 
-    const history = useHistory();
     const login = (response: GoogleLoginResponseOffline | GoogleLoginResponse) => {
         if ("profileObj" in response){
             setUser(response.profileObj.name);
@@ -46,17 +48,19 @@ const LoginPage = () => {
             fetchData();
         }
     }
+
     const handleLoginFailure = () => {
-        alert('Failed to log in')
+        alert('Failed to log in');
     }
+    
     return(
         <div>
             <GoogleLogin
-                clientId={ clientId }
+                clientId={clientId}
                 buttonText='Login'
                 onSuccess={login}
-                onFailure={handleLoginFailure }
-                cookiePolicy={ 'single_host_origin' }
+                onFailure={handleLoginFailure}
+                cookiePolicy='single_host_origin'
                 responseType='code,token'
             />
         </div>

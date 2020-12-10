@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import React, { useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -16,11 +16,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const HomePage = () => {
+    
     const classes = useStyles();
+
     const {
-        userId, setUserId, setFoodPref,
-        setTab
-    } = useContext(AppContext);  
+        userId, setFoodPref,
+    } = useContext(AppContext);
+
     useEffect(() => {
         async function fetchData() {
             // get user foodPrefs
@@ -33,6 +35,7 @@ const HomePage = () => {
             fetchData()
         }
     }, [userId])
+    
     return(
         <div className={classes.root}>
             <AppBarHome/>

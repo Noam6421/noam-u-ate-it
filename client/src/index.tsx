@@ -7,8 +7,6 @@ import { createMuiTheme, StylesProvider, ThemeProvider } from '@material-ui/core
 
 import App from './App';
 
-
-
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] })
 const theme = createMuiTheme({
     direction: 'rtl', // Both here and <body dir="rtl">
@@ -24,4 +22,3 @@ ReactDOM.render(
     </React.StrictMode>,
     document.getElementById('root')
 );
-

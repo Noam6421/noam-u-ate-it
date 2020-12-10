@@ -1,20 +1,19 @@
 import axios from 'axios';
-import { Controller, useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form';
 import React, { useContext, useState, useEffect } from 'react';
-import { TextField, Button, Checkbox, Grid} from '@material-ui/core';
+import { TextField, Button, Checkbox, Grid, makeStyles } from '@material-ui/core';
 
 import schema from './form/favFoodSchema';
 import AppContext from '../context/context';
-import { useDispatch, useSelector } from 'react-redux';
 
 interface Food {
     name: string;
     value: number;
     id?: number;
-}
+};
 
 interface FormData {
     other?: string; 
@@ -41,12 +40,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FavFood = () => {
-    const userInfo = useSelector<UserState, User>((state) => state.user)
-    const { user, userId, 
+    
+    const userInfo = useSelector<UserState, User>((state) => state.user);
+    const history = useHistory();
+    const classes = useStyles();
+
+    const { userId, 
         setFoodList, foodList,
         setFoodPref, foodPref,
     } = useContext(AppContext);
-    const history = useHistory();
+    
     useEffect(() => {
         async function fetchData() {
             const data = await axios.get('/food')
@@ -54,11 +57,12 @@ const FavFood = () => {
         }
         fetchData();
     }, []);
-    const classes = useStyles();
+    
     const [other, setOther] =  useState(false);
     const [otherText, setOtherText] = useState('');
     const [userMes, setUserMes] = useState('');
     const [checkedList, setCheckedList] = useState(foodPref);
+
     const handleCheckedChange = (food: {name: string, value: number}) => {
         if (checkedList.some((checkedItem: Food) => checkedItem.name === food.name)) {
             const newFoods = checkedList.filter((checkedItem: Food) => checkedItem.name !== food.name )
@@ -69,17 +73,19 @@ const FavFood = () => {
             setCheckedList(newFoods);
             return newFoods
         }
-    }
+    };
+
     const { register, handleSubmit, watch, errors, control, setValue } = useForm<FormData>({
         resolver: yupResolver(schema),
         defaultValues: {foods: foodPref}
     });
     const otherValue = watch('other');
+
     const validateForm = async (data: FormData) => {
-        if (data.foods.length === 0 && data.other === "false") {
+        if (data.foods.length === 0 && data.other === 'false') {
             setUserMes('יש לבחור לפחות העדפת אוכל אחת')
             return false
-        } else if (data.other === "true") {
+        } else if (data.other === 'true') {
             if (data.otherText === ''){
                 setUserMes('אם שדה אחר מסומן, יש למלא ערך')
                 return false
@@ -92,7 +98,8 @@ const FavFood = () => {
         } else {
             return true
         }
-    }
+    };
+
     const addOther = async (data: FormData) => {
         if (data.other === 'true') {
             const newFoodData = await axios.post('/food', {other: data.otherText})
@@ -100,7 +107,8 @@ const FavFood = () => {
         } else {
             return data.foods
         }
-    }
+    };
+
     const onSubmit = async (data:FormData) => {
         setUserMes('')
         console.log('FavFoodData', data);
@@ -121,7 +129,7 @@ const FavFood = () => {
                         foodPref: foodPrefWithOther
                     })
                     setUserMes('משתמש נוצר')
-                    history.push("/home");
+                    history.push('/home');
                 } catch (e) {
                     setUserMes('אחד מהשדות חסר!')
                 }
@@ -135,43 +143,44 @@ const FavFood = () => {
                         foodPref: foodPrefWithOther
                     })
                     setUserMes('משתמש עודכן')
-                    history.push("/home");
+                    history.push('/home');
                 } catch (e) {
                     setUserMes('אחד מהשדות חסר!')
                 }
             }
         }
-    }
+    };
+
     return(
         <div className={classes.root}>
             <form onSubmit={handleSubmit(onSubmit)} id='favFood'>
                 {foodList.map((food: Food) => (
-                        <Grid item xs={3}>
-                            <Controller
-                                control={control}
-                                name='foods'
-                                render={props => 
-                                    <Checkbox
-                                        name={food.name}
-                                        value={food.value}
-                                        checked={checkedList.some((checkedItem: Food) => checkedItem.name === food.name)}
-                                        color="primary"
-                                        onChange={() => props.onChange(handleCheckedChange({name: food.name, value: food.value}))}
-                                    />
-                                }
-                            />
-                            <label>{food.name}</label>
-                        </Grid>
-                ))}
-                <Grid container spacing={4}>
-                    <Grid item xs={1}>
+                    <Grid item xs={3}>
                         <Controller
                             control={control}
-                            name="other"
+                            name='foods'
                             render={props => 
                                 <Checkbox
-                                    name="other"
-                                    id="other"
+                                    name={food.name}
+                                    value={food.value}
+                                    checked={checkedList.some((checkedItem: Food) => checkedItem.name === food.name)}
+                                    color='primary'
+                                    onChange={() => props.onChange(handleCheckedChange({name: food.name, value: food.value}))}
+                                />
+                            }
+                        />
+                        <label>{food.name}</label>
+                    </Grid>
+                ))}
+                <Grid container spacing={4}>
+                    <Grid item xs={3}>
+                        <Controller
+                            control={control}
+                            name='other'
+                            render={props => 
+                                <Checkbox
+                                    name='other'
+                                    id='other'
                                     onChange={(e) => props.onChange(e.target.checked)}
                                     checked={props.value}
                                 />
@@ -182,14 +191,14 @@ const FavFood = () => {
                     {otherValue &&
                         <Grid item xs={3}>
                             <TextField
-                                name="otherText"
-                                label="אוכל אחר"
+                                name='otherText'
+                                label='אוכל אחר'
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
                                 inputRef={register}
-                                id="otherText"
-                                variant="outlined"
+                                id='otherText'
+                                variant='outlined'
                             />
                             <p>{errors.other?.message}</p>
                         </Grid>
@@ -198,9 +207,9 @@ const FavFood = () => {
                 <Grid container spacing={4}>
                     <Grid item xs={3}>
                         <Button 
-                        variant="contained" 
-                        type="submit" 
-                        form="favFood"
+                        variant='contained' 
+                        type='submit' 
+                        form='favFood'
                         >
                             סיום
                         </Button>
@@ -212,6 +221,6 @@ const FavFood = () => {
             </form>
         </div>
     )
-}
+};
 
 export default FavFood;
