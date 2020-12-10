@@ -11,30 +11,11 @@ import UserState from '../models/UserState';
 import PersonalInfoFormData from '../models/PersonalInfoFormData';
 
 import AppContext from '../context/context';
+import useStyles from './PersonalInfoStyles';
 import { updateUser } from '../store/actions';
 import schema from './form/personalInfoSchema';
 
-const useStyles = makeStyles((theme) => ({
-    logo: {
-        maxWidth: 80,
-    },
-    root: {
-      flexGrow: 1,
-    },
-    textField: {
-        direction: 'rtl',
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 400,
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 200,
-    },
-    legend:{
-        textAlign: 'left'
-    }
-}));
+const beers: string[] = ['APA', 'Ale', 'Lager'];
 
 const PersonalInfo = () => {
 
@@ -84,6 +65,7 @@ const PersonalInfo = () => {
                 <Grid container spacing={4}>
                     <Grid item xs={3}>
                         <TextField
+                            className={classes.formField}
                             name='name'
                             error={Boolean(errors.name)}
                             label='שם פרטי'
@@ -98,6 +80,7 @@ const PersonalInfo = () => {
                     </Grid>
                     <Grid item xs={3}>
                         <TextField
+                            className={classes.formField}
                             name='lastName'
                             label='שם משפחה'
                             InputLabelProps={{
@@ -118,6 +101,7 @@ const PersonalInfo = () => {
                             control={control}
                             render={props =>
                                 <TextField
+                                    className={classes.formField}
                                     name='birthDate'
                                     id='birthDate'
                                     label='תאריך לידה'
@@ -139,9 +123,10 @@ const PersonalInfo = () => {
                                 name='beer'
                                 control={control}
                                 render={props =>
-                                    <FormControl variant='outlined' className={classes.formControl}>
+                                    <FormControl variant='outlined'>
                                         <InputLabel id='beer-label'>מה הבירה האהובה עלייך?</InputLabel>
                                         <Select
+                                            className={classes.formField}
                                             id='beer'
                                             name='beer'
                                             onChange={(newValue) => props.onChange(newValue)}
@@ -149,9 +134,9 @@ const PersonalInfo = () => {
                                             label='מה הבירה האהובה עלייך?'
                                             autoWidth={true}
                                         >
-                                            <MenuItem value={'APA'}>APA</MenuItem>
-                                            <MenuItem value={'Ale'}>Ale</MenuItem>
-                                            <MenuItem value={'Lager'}>Lager</MenuItem>
+                                            {beers.map((beerItem) => (
+                                                <MenuItem className={classes.menuItem} value={beerItem}>{beerItem}</MenuItem>
+                                            ))}
                                         </Select>
                                     </FormControl>                                    
                                 }
@@ -163,6 +148,7 @@ const PersonalInfo = () => {
                 <Grid container spacing={4}>
                     <Grid item xs={3}>
                         <TextField
+                            className={classes.formField}
                             name='idNum'
                             label='ת.ז'
                             InputLabelProps={{
@@ -179,6 +165,7 @@ const PersonalInfo = () => {
                 <Grid container spacing={4}>
                     <Grid item xs={3}>
                         <TextField
+                            className={classes.formField}
                             name='phone'
                             label='טלפון'
                             InputLabelProps={{

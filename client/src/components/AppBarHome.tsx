@@ -5,16 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { GoogleLogout } from 'react-google-login';
 import { AppBar, Typography, makeStyles } from '@material-ui/core';
 
+import useStyles from './AppBarHomeStyles';
 import AppContext from '../context/context';
-
-const useStyles = makeStyles((theme) => ({
-    logo: {
-        maxWidth: 80,
-    },
-    root: {
-      flexGrow: 1,
-    },
-}));
 
 const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_ID : '';
 

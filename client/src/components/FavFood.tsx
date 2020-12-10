@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller, useForm } from 'react-hook-form';
 import React, { useContext, useState, useEffect } from 'react';
-import { TextField, Button, Checkbox, Grid, makeStyles } from '@material-ui/core';
+import { TextField, Button, Checkbox, Grid } from '@material-ui/core';
 
 import User from '../models/User';
 import Food from '../models/Food';
@@ -14,30 +14,10 @@ import FavFoodFormData from '../models/FavFoodFormData';
 import schema from './form/favFoodSchema';
 import AppContext from '../context/context';
 
-
-const useStyles = makeStyles((theme) => ({
-    logo: {
-        maxWidth: 80,
-    },
-    root: {
-      flexGrow: 1,
-    },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        width: 200,
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 200,
-    },
-}));
-
 const FavFood = () => {
     
     const userInfo = useSelector<UserState, User>((state) => state.user);
     const history = useHistory();
-    const classes = useStyles();
 
     const { userId, 
         setFoodList, foodList,
@@ -146,7 +126,7 @@ const FavFood = () => {
     };
 
     return(
-        <div className={classes.root}>
+        <div>
             <form onSubmit={handleSubmit(onSubmit)} id='favFood'>
                 {foodList.map((food: Food) => (
                     <Grid item xs={3}>
