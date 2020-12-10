@@ -1,3 +1,4 @@
+import axios from 'axios';
 import moment from 'moment';
 import React, { useContext, useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -45,12 +46,27 @@ const PersonalInfo = () => {
     const userInfo = useSelector<UserState, User>((state) => state.user)
     const dispatch = useDispatch()
     const classes = useStyles();
-    const { setTab } = useContext(AppContext);
-    
+    const {
+        userId, setFoodPref, setTab
+    } = useContext(AppContext);
+
     useEffect(() => {
         reset(userInfo)
     }, [])
 
+    useEffect(() => {
+        async function fetchData() {
+            // get user foodPrefs
+            const foodData = await axios.get('/foodPref', { 
+                params:{userId}
+            });
+            setFoodPref(foodData.data);
+        }
+        if (userId){
+            fetchData()
+        }
+    }, [userId]);
+    
     const { register, handleSubmit, watch, errors, control, setValue, reset,  } = useForm<FormData>({
         resolver: yupResolver(schema),
     });

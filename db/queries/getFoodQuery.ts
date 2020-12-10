@@ -1,8 +1,8 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request';
 
 export const getFoodQuery = gql`
     query getFood {
-        allFoods {
+        allFoods(orderBy: FOOD_NAME_ASC) {
         nodes {
             foodName
             id

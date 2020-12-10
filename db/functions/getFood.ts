@@ -1,7 +1,7 @@
-import { request } from "graphql-request";
+import { request } from 'graphql-request';
 import { Request, Response } from 'express';
 
-import { getFoodQuery } from "../queries/getFoodQuery";
+import { getFoodQuery } from '../queries/getFoodQuery';
 
 const getFood = async (req: Request, res: Response) => {
     const data = await request(String(process.env.GRAPHQL_URL), getFoodQuery)

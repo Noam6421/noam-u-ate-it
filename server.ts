@@ -1,13 +1,12 @@
-import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
-import {postgraphile} from "postgraphile";
+import {postgraphile} from 'postgraphile';
 
 import getUser from './db/functions/getUser';
 import getFood from './db/functions/getFood';
-import createUser from "./db/functions/createUser";
-import updateUser from "./db/functions/updateUser";
+import createUser from './db/functions/createUser';
+import updateUser from './db/functions/updateUser';
 import createFood from './db/functions/createFood';
 import getFoodPref from './db/functions/getFoodPref';
 import createFoodPref from './db/functions/createFoodPref';
@@ -20,7 +19,7 @@ const port = process.env.PORT || 3001;
 
 app.use(postgraphile(
     process.env.DATABASE_URL,
-    "u-ate-it-schema", 
+    'u-ate-it-schema', 
     {
         watchPg: true,
         graphiql: true,

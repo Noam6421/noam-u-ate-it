@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request';
 
 export const deleteFoodPrefMutation = gql`
     mutation deleteFoodPref($userId: Int!, $foodId: Int!) {

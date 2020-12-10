@@ -1,8 +1,7 @@
 import { request } from "graphql-request";
 import { Request, Response } from 'express';
 
-import { createFoodPrefMutation } from "../mutations/createFoodPrefMutation";
-import { createFoodMutation } from "../mutations/createFoodMutation";
+import { createFoodPrefMutation } from '../mutations/createFoodPrefMutation';
 
 const createFoodPref = async (req: Request, res: Response) => {
     req.body.foodPref.map(async (foodPrefItem) => {

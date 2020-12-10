@@ -1,7 +1,7 @@
-import { request } from "graphql-request";
+import { request } from 'graphql-request';
 import { Request, Response } from 'express';
 
-import { createFoodMutation } from "../mutations/createFoodMutation";
+import { createFoodMutation } from '../mutations/createFoodMutation';
 
 const createFood = async (req: Request, res: Response) => {
     try {

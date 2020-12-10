@@ -57,7 +57,7 @@ const FavFood = () => {
         }
         fetchData();
     }, []);
-    
+
     const [other, setOther] =  useState(false);
     const [otherText, setOtherText] = useState('');
     const [userMes, setUserMes] = useState('');

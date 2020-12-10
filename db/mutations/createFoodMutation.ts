@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request';
 
 export const createFoodMutation = gql`
     mutation createFood ($foodName: String!) {

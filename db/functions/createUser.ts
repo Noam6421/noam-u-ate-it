@@ -1,7 +1,7 @@
-import { request } from "graphql-request";
+import { request } from 'graphql-request';
 import { Request, Response } from 'express';
 
-import { createUserMutation } from "../mutations/createUserMutation";
+import { createUserMutation } from '../mutations/createUserMutation';
 
 const createUser = async (req: Request, res: Response) => {
     const data = await request(String(process.env.GRAPHQL_URL), createUserMutation, {
@@ -12,10 +12,10 @@ const createUser = async (req: Request, res: Response) => {
         idNum: req.body.idNum,
         phone: req.body.phone,
         beer: req.body.beer === '' ? undefined : req.body.beer 
-    })
+    });
     if (!data) {
         return res.status(400).send(data)
-    }
+    };
     res.send({userId: data.createUser.user.id})
 };
 
