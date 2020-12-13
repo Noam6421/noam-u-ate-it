@@ -8,6 +8,7 @@
         "dev": "concurrently --kill-others-on-fail \"npm server\" \"npm client\""
     },
     "dependencies": {
+        "@graphile-contrib/pg-order-by-related": "^1.0.0-beta.6",
         "@graphile-contrib/pg-simplify-inflector": "^6.1.0",
         "@graphile/pg-pubsub": "^4.10.0",
         "body-parser": "^1.18.3",

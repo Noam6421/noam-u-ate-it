@@ -1,5 +1,6 @@
 import * as yup from 'yup';
-import isIsraeliIdValid from 'israeli-id-validator';
+
+import isIsraeliIdValid from '../../utils/israeliIdValidator';
 
 const phoneRegExp = /^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$/;
 const alphaRegex = /^[a-z\u0590-\u05fe]+$/i;

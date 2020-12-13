@@ -21,7 +21,6 @@ app.use(postgraphile(
     process.env.DATABASE_URL,
     'u-ate-it-schema', 
     {
-        watchPg: true,
         graphiql: true,
         enhanceGraphiql: true,
     }

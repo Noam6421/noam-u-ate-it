@@ -16,7 +16,6 @@
     "@types/jest": "^26.0.15",
     "axios": "^0.21.0",
     "dot-env": "^0.0.1",
-    "israeli-id-validator": "^1.0.1",
     "jss-rtl": "^0.3.0",
     "moment": "^2.29.1",
     "react": "^17.0.1",

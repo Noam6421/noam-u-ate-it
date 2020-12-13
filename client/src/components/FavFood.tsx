@@ -19,7 +19,7 @@ const FavFood = () => {
     const userInfo = useSelector<UserState, User>((state) => state.user);
     const history = useHistory();
 
-    const { userId, 
+    const { userId, email,
         setFoodList, foodList,
         setFoodPref, foodPref,
     } = useContext(AppContext);
@@ -95,7 +95,7 @@ const FavFood = () => {
         if (formValid) {
             if (!userId){
                 try {
-                    const newUser = await axios.post('/user', {...userInfo})
+                    const newUser = await axios.post('/user', {...userInfo, email})
                     const userId = newUser.data.userId; 
                     const foodPrefWithOther = await addOther(data);
                     await axios.post('/foodPref', {
@@ -109,7 +109,7 @@ const FavFood = () => {
                 }
             } else {
                 try {
-                    const updatedUser = await axios.put('/user', {...userInfo})
+                    const updatedUser = await axios.put('/user', {...userInfo, email})
                     const userId = updatedUser.data.userId; 
                     const foodPrefWithOther = await addOther(data);
                     await axios.put('/foodPref', {
