@@ -7,9 +7,16 @@
         "sourceMap": true,                     /* Generates corresponding '.map' file. */
         "outDir": "dist",                        /* Redirect output structure to the directory. */
         "moduleResolution": "node",
-        "strictNullChecks": true,              /* Enable strict null checks. */
+        "strictNullChecks": true,  
+        "baseUrl": ".",
+        "paths": {
+          "*": [
+            "node_modules/*"
+          ]
+        }           
     }, 
     "include": [
+        "*",
         "src/**/*"
     ]
 }
