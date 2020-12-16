@@ -17,6 +17,9 @@
     }, 
     "include": [
         "*",
-        "src/**/*"
+        "./db",
+        "./client/build/**/*",
+        "src/**/*",
+        "./client/build.html"
     ]
 }

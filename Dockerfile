@@ -6,12 +6,8 @@ COPY . ./
 
 RUN npm install
 
-RUN npm install pm2 -g
+RUN npm install ts-node -g
 
-RUN npm run build
+EXPOSE 8080
 
-COPY ./dist .
-
-EXPOSE 3001
-
-CMD ["pm2-runtime","server.js"]
+CMD ["npm", "run", "server"]

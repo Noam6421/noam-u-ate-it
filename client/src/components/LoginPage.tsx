@@ -53,8 +53,8 @@ const LoginPage = () => {
         }
     }
 
-    const handleLoginFailure = () => {
-        alert('Failed to log in');
+    const handleLoginFailure = (err: any) => {
+        console.log(err)
     }
     
     return(

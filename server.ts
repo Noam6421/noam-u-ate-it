@@ -14,11 +14,11 @@ import updateFoodPref from './db/functions/updateFoodPref';
 
 require('dotenv').config();
 const app = express();
-const publicPath = path.join(__dirname, 'client', 'public');
-const port = process.env.PORT || 3001;
+const publicPath = path.join(__dirname, 'client', 'build');
+const port = process.env.PORT || 8080;
 
 app.use(postgraphile(
-    process.env.DATABASE_URL,
+    "postgres://vinsblex:qlaqK5kGOSeAHcdyaq3T-b7EOFFk2DXJ@kandula.db.elephantsql.com:5432/vinsblex",
     'u-ate-it-schema', 
     {
         graphiql: true,
@@ -27,6 +27,10 @@ app.use(postgraphile(
 ));
 
 app.use(express.static(publicPath));
+
+app.get('/', function (req, res) {
+    res.sendFile(path.join(publicPath, 'index.html'))
+})
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -44,6 +48,12 @@ app.post('/food', createFood);
 app.get('/foodPref', getFoodPref);
 app.post('/foodPref', createFoodPref);
 app.put('/foodPref', updateFoodPref);
+
+
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(publicPath, 'index.html'));
+});
+
 
 app.listen(port, () => {
     console.log(`Server is up on port ${port}!`);

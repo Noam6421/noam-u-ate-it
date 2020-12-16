@@ -2,13 +2,14 @@ version: "3"
 
 services:
   server:
-    build: .
+    image: noam6421/server
     ports:
-      - 3001:3001
+      - "3001:3001"
   client:
-    build: ./client
+    image: noam6421/client
     ports:
-      - 3000:3000
+      - "443:443"
+    stdin_open: true 
     depends_on:
       - server
     links:

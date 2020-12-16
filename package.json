@@ -4,10 +4,10 @@
     "scripts": {
         "start": "concurrently \"npm run server\" \"npm run client\"",
         "client": "cd client && npm start",
-        "server": "nodemon --exec ts-node server.ts",
+        "server": "ts-node server.ts",
         "dev": "concurrently --kill-others-on-fail \"npm server\" \"npm client\"",
         "deploy": "node dist/server.js",
-        "build": "tsc -p ."
+        "build": "tsc"
     },
     "dependencies": {
         "@graphile-contrib/pg-order-by-related": "^1.0.0-beta.6",
