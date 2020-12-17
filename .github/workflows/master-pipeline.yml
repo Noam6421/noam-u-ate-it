@@ -32,11 +32,7 @@ jobs:
     
       - name: Install dependencies
         run: npm install
-      
-      - name: move to client folder
-        run: cd client
-      - name: Install Packages
-        run: npm install
+
       - name: Build page
         run: npm run build
 

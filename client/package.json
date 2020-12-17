@@ -1,5 +1,5 @@
 {
-  "name": "client",  
+  "name": "client",
   "version": "0.1.0",
   "proxy": "https://u-ate-it-server.azurewebsites.net/",
   "private": true,
