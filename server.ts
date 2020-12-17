@@ -30,9 +30,6 @@ app.use(postgraphile(
 app.use(cors());
 app.use(express.static(publicPath));
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(publicPath, 'index.html'))
-})
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -51,6 +48,10 @@ app.get('/foodPref', getFoodPref);
 app.post('/foodPref', createFoodPref);
 app.put('/foodPref', updateFoodPref);
 
+
+app.get('/', function (req, res) {
+    res.sendFile(path.join(publicPath, 'index.html'))
+})
 
 app.get('*', (req,res) =>{
     res.sendFile(path.join(publicPath, 'index.html'));
