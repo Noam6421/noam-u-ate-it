@@ -8,7 +8,7 @@ const getFood = async (req: Request, res: Response) => {
         const data = await request(String(process.env.GRAPHQL_URL), getFoodQuery)
         const foodList: Object[] = [];
         if (!data) {
-            return res.status(400).send({data, a: process.env.GRAPHQL_URL })
+            return res.status(400).send(data)
         }
         data.allFoods.nodes.map((node: any) => {
             foodList.push({name: node.foodName, value: node.id})
