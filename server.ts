@@ -1,5 +1,6 @@
 import path from 'path';
 import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import {postgraphile} from 'postgraphile';
 
@@ -26,6 +27,7 @@ app.use(postgraphile(
     }
 ));
 
+app.use(cors());
 app.use(express.static(publicPath));
 
 app.get('/', function (req, res) {
