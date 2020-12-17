@@ -11,6 +11,7 @@ import { getUser } from '../store/actions';
 import AppContext from '../context/context';
 
 //const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_ID : '';
+const clientId = '988769699236-iia7fttlj2p46hoaisu04lh81cnd10co.apps.googleusercontent.com';
 
 const LoginPage = () => {
 
@@ -64,7 +65,7 @@ const LoginPage = () => {
                 <Grid item xs={6}>
                     <Typography variant='h5'>ברוכים הבאים לאכלת אותה! בואו נתחבר ומיד נתחיל...</Typography>
                     <GoogleLogin
-                        clientId="988769699236-iia7fttlj2p46hoaisu04lh81cnd10co.apps.googleusercontent.com"
+                        clientId={clientId}
                         buttonText='Login'
                         onSuccess={login}
                         onFailure={handleLoginFailure}
