@@ -34,11 +34,11 @@ jobs:
         run: npm install
 
       - name: docker login
-        uses: actions/docker/login@master
+        uses: actions-hub/docker/login@master
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          
+
       - name: Build page
         run: npm run build
         env:
@@ -48,6 +48,6 @@ jobs:
         run: docker build -t noam6421/server:latest .
 
       - name: docker push
-        uses: actions/docker/cli@master
+        uses: actions-hub/docker@master
         with:
           args: push noam6421/server:latest
