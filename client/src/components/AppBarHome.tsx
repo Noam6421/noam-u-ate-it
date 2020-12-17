@@ -24,7 +24,7 @@ const AppBarHome = () => {
 
     return(
         <div className={classes.root}>
-            <AppBar position='static' color="secondary">
+            <AppBar position='static'>
                 <Grid
                     justify='space-between' 
                     container 
