@@ -33,12 +33,12 @@ jobs:
       - name: Install dependencies
         run: npm install
       
-      - name: npm build client
-        run: |
-          cd client
-          npm install
-          npm install react-scripts@3.4.1 -g
-          npm run build
+      - name: move to client folder
+        run: cd client
+      - name: Install Packages
+        run: npm install
+      - name: Build page
+        run: npm run build
 
 
       
