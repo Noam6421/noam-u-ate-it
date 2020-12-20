@@ -10,8 +10,7 @@ import useStyles from './LoginPageStyles';
 import { getUser } from '../store/actions';
 import AppContext from '../context/context';
 
-//const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_ID : '';
-const clientId = '988769699236-iia7fttlj2p46hoaisu04lh81cnd10co.apps.googleusercontent.com';
+const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_ID : '';
 
 const LoginPage = () => {
 
@@ -63,8 +62,6 @@ const LoginPage = () => {
             <AppBarHome/>
             <Grid container spacing={3}>
                 <Grid item xs={6}>
-                    <p>test eith react: {process.env.REACT_APP_TEST}</p>
-                    <p>test: {process.env.TEST}</p>
                     <Typography variant='h5'>ברוכים הבאים לאכלת אותה! בואו נתחבר ומיד נתחיל...</Typography>
                     <GoogleLogin
                         clientId={clientId}

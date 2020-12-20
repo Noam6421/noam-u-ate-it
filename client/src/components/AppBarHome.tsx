@@ -8,8 +8,7 @@ import { AppBar, Typography } from '@material-ui/core';
 import useStyles from './AppBarHomeStyles';
 import AppContext from '../context/context';
 
-//const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_ID : '';
-const clientId = '988769699236-iia7fttlj2p46hoaisu04lh81cnd10co.apps.googleusercontent.com';
+const clientId = process.env.REACT_APP_CLIENT_ID ? process.env.REACT_APP_CLIENT_ID : '';
 
 const AppBarHome = () => {
 
