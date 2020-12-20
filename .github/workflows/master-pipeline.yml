@@ -45,13 +45,10 @@ jobs:
           CI: false
           REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
 
-      - script: |
-          - docker build -t noam6421/server:latest \
-          --build-arg PORT_ARG=${{ secrets.PORT }} \
-          --build-arg DATABASE_URL_ARG=${{ secrets.DATABASE_URL }} \
-          --build-arg GRAPHQL_URL_ARG=${{ secrets.GRAPHQL_URL }} \
-          --build-arg TEST_ARG=${{ secrets.TEST }} .
-        displayName: 'docker build'
+      - name: docker build
+        run: 
+          - docker build -t noam6421/server:latest --build-arg PORT_ARG=${{ secrets.PORT }} --build-arg DATABASE_URL_ARG=${{ secrets.DATABASE_URL }} --build-arg GRAPHQL_URL_ARG=${{ secrets.GRAPHQL_URL }} --build-arg TEST_ARG=${{ secrets.TEST }} .
+      
       - name: docker push
         uses: actions-hub/docker@master
         with:
