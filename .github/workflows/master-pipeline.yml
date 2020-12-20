@@ -43,6 +43,8 @@ jobs:
         run: npm run build
         env:
           CI: false
+          TEST: ${{ secrets.TEST }}
+          REACT_APP_TEST: ${{ secrets.REACT_APP_TEST }}
 
       - name: docker build
         run: docker build -t noam6421/server:latest .

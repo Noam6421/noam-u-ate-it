@@ -63,6 +63,8 @@ const LoginPage = () => {
             <AppBarHome/>
             <Grid container spacing={3}>
                 <Grid item xs={6}>
+                    <p>test eith react: {process.env.REACT_APP_TEST}</p>
+                    <p>test: {process.env.TEST}</p>
                     <Typography variant='h5'>ברוכים הבאים לאכלת אותה! בואו נתחבר ומיד נתחיל...</Typography>
                     <GoogleLogin
                         clientId={clientId}
