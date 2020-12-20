@@ -48,6 +48,10 @@ app.get('/foodPref', getFoodPref);
 app.post('/foodPref', createFoodPref);
 app.put('/foodPref', updateFoodPref);
 
+app.get('/test', (req,res) =>{
+    res.send({test: process.env.TEST, num: process.env.TEST +1})
+});
+
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(publicPath, 'index.html'))
