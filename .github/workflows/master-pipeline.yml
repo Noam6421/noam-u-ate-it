@@ -46,10 +46,12 @@ jobs:
           REACT_APP_CLIENT_ID: ${{ secrets.REACT_APP_CLIENT_ID }}
 
       - name: docker build
-        run: docker build -t noam6421/server:latest .
-        env: 
-          TEST: ${{ secrets.TEST }}
-
+        run: docker build -t noam6421/server:latest 
+        --build-arg PORT_ARG=${{ secrets.PORT }} 
+        --build-arg DATABASE_URL_ARG=${{ secrets.DATABASE_URL }}
+        --build-arg GRAPHQL_URL_ARG=${{ secrets.GRAPHQL_URL }}
+        --build-arg TEST_ARG=${{ secrets.TEST }} .
+      
       - name: docker push
         uses: actions-hub/docker@master
         with:
